@@ -5,9 +5,14 @@
   "private": true,
   "workspaces": [
     "src/frontend",
-    "src/backend"
+    "src/backend",
+    "src/shared"
   ],
   "scripts": {
-    "frontend": "yarn workspace frontend dev"
+    "frontend": "yarn workspace frontend dev",
+    "prisma:reset": "yarn workspace backend prisma:reset",
+    "prisma:migrate": "yarn workspace backend prisma:migrate",
+    "prisma:generate": "yarn workspace backend prisma:generate",
+    "prisma:studio": "yarn workspace backend prisma:studio"
   }
 }
