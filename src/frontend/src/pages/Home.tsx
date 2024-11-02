@@ -12,21 +12,6 @@ import { Footer } from "../components/footer";
 
 export default function Home() {
   return (
-<<<<<<< Updated upstream
-    <main className="container mx-auto px-4 py-8 pb-16">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 text-blue-800">
-          Welcome to Refuge Reach
-        </h1>
-        <p className="text-xl mb-6">
-          Connecting refugees with vital resources in urban areas
-        </p>
-        <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white">
-          <a href="/dashboard" className="flex items-center">
-            Find Resources <ArrowRight className="ml-2 h-4 w-4" />
-          </a>
-        </Button>
-=======
     <main>
       <Navbar />
       {/* Hero Section */}
@@ -38,8 +23,7 @@ export default function Home() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        }}
-      >
+        }}>
         <div className="absolute inset-0 bg-blue-800 opacity-50"></div>
         <div className="relative z-10">
           <h1 className="text-4xl font-bold mb-4 text-white">
@@ -50,14 +34,12 @@ export default function Home() {
           </p>
           <Button
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white"
-          >
+            className="bg-blue-500 hover:bg-blue-600 text-white">
             <a href="/find-resources" className="flex items-center">
               Find Resources <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
         </div>
->>>>>>> Stashed changes
       </section>
 
       {/* What We Do Section */}
