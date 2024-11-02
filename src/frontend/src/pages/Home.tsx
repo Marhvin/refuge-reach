@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from "../components/ui/card";
 import { ArrowRight, Heart, Users, MapPin } from "lucide-react";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
           Connecting refugees with vital resources in urban areas
         </p>
         <Button size="lg" className="bg-blue-500 hover:bg-blue-600 text-white">
-          <a href="/find-resources" className="flex items-center">
+          <a href="/dashboard" className="flex items-center">
             Find Resources <ArrowRight className="ml-2 h-4 w-4" />
           </a>
         </Button>

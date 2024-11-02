@@ -59,7 +59,7 @@ const stores = [
   },
 ];
 
-export default function SpaciousStoreNavbarWithMap() {
+export default function Dashboard() {
   const [selectedStore, setSelectedStore] = React.useState(null);
 
   return (
