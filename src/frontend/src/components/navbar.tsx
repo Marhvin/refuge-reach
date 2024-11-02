@@ -7,7 +7,7 @@ export function Navbar() {
           <div className="flex items-center space-x-4">
             <a href="/">
               <img
-                src="/URlogo.png"
+                src="/URLogo.png"
                 alt="Urban Refuge Logo"
                 className="h-16 w-auto" // Adjusted for better aspect ratio and scaling
               />
@@ -27,8 +27,7 @@ export function Navbar() {
             <div>
               <a
                 href="/donate"
-                className="border-2 border-blue-900 text-blue-900 px-4 py-2 rounded-lg hover:bg-blue-900 hover:text-white transition-colors"
-              >
+                className="border-2 border-blue-900 text-blue-900 px-4 py-2 rounded-lg hover:bg-blue-900 hover:text-white transition-colors">
                 Donate
               </a>
             </div>

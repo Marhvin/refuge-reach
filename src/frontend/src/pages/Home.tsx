@@ -35,7 +35,7 @@ export default function Home() {
           <Button
             size="lg"
             className="bg-blue-500 hover:bg-blue-600 text-white">
-            <a href="/find-resources" className="flex items-center">
+            <a href="/find" className="flex items-center">
               Find Resources <ArrowRight className="ml-2 h-4 w-4" />
             </a>
           </Button>
