@@ -20,6 +20,7 @@ enum OrganizationServiceType {
   HEALTHCARE
   FOOD
   EMPLOYMENT
+  MENTAL_HEALTH
 }
 
 enum OrganizationTags {

@@ -2,6 +2,7 @@ import express from "express";
 import { errorHandler } from "./utils/error.utils";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import organizationsRouter from "./routes/organizations.routes";
 
 const PORT = process.env.PORT || 5767;
 
@@ -11,7 +12,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(cors(JSON.parse(process.env.CORS_OPTIONS ?? "{}")));
 
-// add routes
+app.use("/organizations", organizationsRouter);
 
 app.use(errorHandler);
 
