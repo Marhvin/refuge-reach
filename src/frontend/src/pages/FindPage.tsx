@@ -85,31 +85,39 @@ const FindPage: React.FC = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-center text-lg">
-                  <MapPin className="mr-3 h-5 w-5" />
-                  <span>{selectedOrganization.address}</span>
-                </div>
-                <div className="flex items-center text-lg">
-                  <Phone className="mr-3 h-5 w-5" />
-                  <span>{selectedOrganization.phoneNumber}</span>
-                </div>
-                <div className="flex items-center text-lg">
-                  <Clock className="mr-3 h-5 w-5" />
-                  <span>{selectedOrganization.hours}</span>
-                </div>
+                {selectedOrganization.address && (
+                  <div className="flex items-center text-lg">
+                    <MapPin className="mr-3 h-5 w-5" />
+                    <span>{selectedOrganization.address}</span>
+                  </div>
+                )}
+                {selectedOrganization.phoneNumber && (
+                  <div className="flex items-center text-lg">
+                    <Phone className="mr-3 h-5 w-5" />
+                    <span>{selectedOrganization.phoneNumber}</span>
+                  </div>
+                )}
+                {selectedOrganization.hours && (
+                  <div className="flex items-center text-lg">
+                    <Clock className="mr-3 h-5 w-5" />
+                    <span>{selectedOrganization.hours}</span>
+                  </div>
+                )}
               </CardContent>
-              <CardFooter>
-                <Button asChild variant="outline" size="lg">
-                  <a
-                    href={selectedOrganization.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg">
-                    Visit Website
-                    <ExternalLink className="ml-2 h-5 w-5" />
-                  </a>
-                </Button>
-              </CardFooter>
+              {selectedOrganization.website && (
+                <CardFooter>
+                  <Button asChild variant="outline" size="lg">
+                    <a
+                      href={selectedOrganization.website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg">
+                      Visit Website
+                      <ExternalLink className="ml-2 h-5 w-5" />
+                    </a>
+                  </Button>
+                </CardFooter>
+              )}
             </Card>
           ) : (
             <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
