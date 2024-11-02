@@ -10,9 +10,14 @@
   ],
   "scripts": {
     "frontend": "yarn workspace frontend dev",
+    "backend": "yarn workspace backend start",
+    "start": "yarn concurrently \"yarn frontend\" \"yarn backend\"",
     "prisma:reset": "yarn workspace backend prisma:reset",
     "prisma:migrate": "yarn workspace backend prisma:migrate",
     "prisma:generate": "yarn workspace backend prisma:generate",
     "prisma:studio": "yarn workspace backend prisma:studio"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
   }
 }
