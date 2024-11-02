@@ -9,6 +9,7 @@ import {
 import { ArrowRight, Heart, Users, MapPin } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+import LazyLoad from "react-lazy-load";
 
 export default function Home() {
   return (
@@ -99,14 +100,16 @@ export default function Home() {
           Who We Are
         </h2>
         <div className="max-w-4xl mx-auto text-center">
-          <video
-            className="w-full h-auto rounded-lg shadow-md"
-            controls
-            poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
-          >
-            <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <LazyLoad>
+            <video
+              className="w-full h-auto rounded-lg shadow-md"
+              controls
+              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+            >
+              <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </LazyLoad>
         </div>
       </section>
 
