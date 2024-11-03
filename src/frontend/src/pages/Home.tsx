@@ -42,7 +42,8 @@ export default function Home() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        }}>
+        }}
+      >
         <div className="absolute inset-0 bg-blue-800 opacity-30"></div>
         <div className="relative z-10">
           <h1 className="text-5xl font-bold mb-4 text-white">
@@ -53,7 +54,8 @@ export default function Home() {
           </p>
           <Button
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white">
+            className="bg-blue-500 hover:bg-blue-600 text-white"
+          >
             <a href="/find" className="flex items-center">
               Find Resources <ArrowRight className="ml-2 h-4 w-4" />
             </a>

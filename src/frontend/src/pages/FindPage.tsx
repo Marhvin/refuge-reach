@@ -20,6 +20,14 @@ import {
 } from "../components/ui/dropdown-menu";
 import OrganizationPreview from "../components/OrganizationPreview";
 import { coordinateTransformer } from "../transformers/coordinate.transformers";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Autocomplete,
+  Libraries,
+} from "@react-google-maps/api";
+
+const libraries: Libraries = ["places"];
 
 const FindPage: React.FC = () => {
   const [mapCenter, setMapCenter] = useState({
@@ -30,6 +38,18 @@ const FindPage: React.FC = () => {
     useState<Organization | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [userLocation, setUserLocation] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
+  const [autocomplete, setAutocomplete] =
+    useState<google.maps.places.Autocomplete | null>(null);
+
+  // Use the environment variable for the API key
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    libraries,
+  });
 
   const {
     data: organizations,
@@ -38,21 +58,57 @@ const FindPage: React.FC = () => {
     error,
   } = useGetAllOrganizations();
 
+  // **Add this block to declare 'organizationTypes'**
   // Get the list of all unique service types
   const organizationTypes = Array.from(
     new Set(organizations?.flatMap((org) => org.serviceType) ?? [])
   );
 
-  // Filter the organizations based on search query and selected types
-  const filteredOrganizations = organizations?.filter((organization) => {
-    const matchesSearch = organization.name
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase());
-    const matchesType =
-      selectedTypes.length === 0 ||
-      organization.serviceType.some((type) => selectedTypes.includes(type));
-    return matchesSearch && matchesType;
-  });
+  // Function to calculate distance between two coordinates
+  const haversineDistance = (
+    coords1: { lat: number; lng: number },
+    coords2: { lat: number; lng: number }
+  ) => {
+    const toRad = (value: number) => (value * Math.PI) / 180;
+    const R = 6371; // Earth's radius in kilometers
+    const dLat = toRad(coords2.lat - coords1.lat);
+    const dLng = toRad(coords2.lng - coords1.lng);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(coords1.lat)) *
+        Math.cos(toRad(coords2.lat)) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  // Filter and sort the organizations based on search query, selected types, and distance
+  const filteredOrganizations = organizations
+    ?.filter((organization) => {
+      const matchesSearch = organization.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesType =
+        selectedTypes.length === 0 ||
+        organization.serviceType.some((type) => selectedTypes.includes(type));
+      return matchesSearch && matchesType;
+    })
+    .map((organization) => {
+      // Calculate distance if user location is available
+      let distance = null;
+      if (userLocation && organization.coordinates) {
+        const orgCoords = coordinateTransformer(organization.coordinates);
+        distance = haversineDistance(userLocation, orgCoords);
+      }
+      return { ...organization, distance };
+    })
+    .sort((a, b) => {
+      if (a.distance !== null && b.distance !== null) {
+        return a.distance - b.distance;
+      }
+      return 0;
+    });
 
   if (isError || error) {
     return <div>Error: {error.message}</div>;
@@ -66,48 +122,80 @@ const FindPage: React.FC = () => {
     }
   };
 
+  const onLoadAutocomplete = (
+    autocompleteInstance: google.maps.places.Autocomplete
+  ) => {
+    setAutocomplete(autocompleteInstance);
+  };
+
+  const onPlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      if (place.geometry && place.geometry.location) {
+        const lat = place.geometry.location.lat();
+        const lng = place.geometry.location.lng();
+        const userCoords = { lat, lng };
+        setUserLocation(userCoords);
+        setMapCenter(userCoords);
+      }
+    }
+  };
+
   return (
     <div>
       <Navbar></Navbar>
-      <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
-        <nav className="w-96 bg-background border-r">
-          <div className="p-4">
-            <Input
-              type="text"
-              placeholder="Search organizations"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="mt-2 w-full">
-                  Filter by Type
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>Select Types</DropdownMenuLabel>
-                {organizationTypes.map((type) => (
-                  <DropdownMenuCheckboxItem
-                    key={type}
-                    checked={selectedTypes.includes(type)}
-                    onCheckedChange={(checked: boolean) => {
-                      setSelectedTypes((prev) =>
-                        checked
-                          ? [...prev, type]
-                          : prev.filter((t) => t !== type)
-                      );
-                    }}
-                  >
-                    {type}
-                  </DropdownMenuCheckboxItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-          <ScrollArea className="h-full">
-            {isLoading && <Loader2 />}
+      {!isLoaded ? (
+        <div>Loading Maps...</div>
+      ) : (
+        <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
+          <nav className="w-96 bg-background border-r">
+            <div className="p-4">
+              <Input
+                type="text"
+                placeholder="Search organizations"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="mt-2 w-full">
+                    Filter by Type
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Select Types</DropdownMenuLabel>
+                  {organizationTypes.map((type) => (
+                    <DropdownMenuCheckboxItem
+                      key={type}
+                      checked={selectedTypes.includes(type)}
+                      onCheckedChange={(checked: boolean) => {
+                        setSelectedTypes((prev) =>
+                          checked
+                            ? [...prev, type]
+                            : prev.filter((t) => t !== type)
+                        );
+                      }}
+                    >
+                      {type}
+                    </DropdownMenuCheckboxItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <div className="mt-4">
+                <Autocomplete
+                  onLoad={onLoadAutocomplete}
+                  onPlaceChanged={onPlaceChanged}
+                >
+                  <Input
+                    type="text"
+                    placeholder="Enter your address or zipcode"
+                  />
+                </Autocomplete>
+              </div>
+            </div>
+            <ScrollArea className="h-full">
+              {isLoading && <Loader2 />}
 
-            <div className="mb-28">
               {filteredOrganizations &&
                 filteredOrganizations.map((organization) => (
                   <Button
@@ -131,8 +219,13 @@ const FindPage: React.FC = () => {
                             <span>{organization.address}</span>
                           </div>
                         )}
+                        {organization.distance !== null && (
+                          <div className="text-sm">
+                            {organization.distance.toFixed(2)} km away
+                          </div>
+                        )}
                       </div>
-                      <div className="flex flex-wrap mt-3 gap-3 gap-y-2">
+                      <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
                         {organization.serviceType.map((type) => (
                           <Chip
                             key={type}
@@ -147,32 +240,32 @@ const FindPage: React.FC = () => {
                     </div>
                   </Button>
                 ))}
+            </ScrollArea>
+          </nav>
+          <main className="flex-1 flex flex-col">
+            <div className="flex-1">
+              {filteredOrganizations ? (
+                <OrganizationMap
+                  organizations={filteredOrganizations}
+                  setSelectedOrganization={setSelectedOrganization}
+                  mapCenter={mapCenter}
+                />
+              ) : (
+                <Loader2 />
+              )}
             </div>
-          </ScrollArea>
-        </nav>
-        <main className="flex-1 flex flex-col">
-          <div className="flex-1">
-            {filteredOrganizations ? (
-              <OrganizationMap
-                organizations={filteredOrganizations}
-                setSelectedOrganization={setSelectedOrganization}
-                mapCenter={mapCenter}
-              />
-            ) : (
-              <Loader2 />
-            )}
-          </div>
-          <div className="h-80 p-6 bg-background overflow-auto">
-            {selectedOrganization ? (
-              <OrganizationPreview organization={selectedOrganization} />
-            ) : (
-              <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
-                Select a store to view details
-              </div>
-            )}
-          </div>
-        </main>
-      </div>
+            <div className="h-80 p-6 bg-background overflow-auto">
+              {selectedOrganization ? (
+                <OrganizationPreview organization={selectedOrganization} />
+              ) : (
+                <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
+                  Select a store to view details
+                </div>
+              )}
+            </div>
+          </main>
+        </div>
+      )}
       <Footer />
     </div>
   );
