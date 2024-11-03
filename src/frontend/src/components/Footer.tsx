@@ -42,20 +42,32 @@ export function Footer() {
           <div className="flex flex-col items-start md:items-end">
             {/* Social Media Links */}
             <div className="flex space-x-6 mb-8">
-              <a href="#" className="hover:text-gray-300" aria-label="Email">
+              <a
+                href="mailto:ceo@urbanrefuge.org"
+                className="hover:text-gray-300"
+                aria-label="Email"
+              >
                 <Mail className="text-white h-6 w-6" />
               </a>
-              <a href="#" className="hover:text-gray-300" aria-label="Facebook">
+              <a
+                href="https://www.facebook.com/UrbanRefugeApp/"
+                className="hover:text-gray-300"
+                aria-label="Facebook"
+              >
                 <Facebook className="text-white h-6 w-6" />
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/urbanrefugeapp"
                 className="hover:text-gray-300"
                 aria-label="Instagram"
               >
                 <Instagram className="text-white h-6 w-6" />
               </a>
-              <a href="#" className="hover:text-gray-300" aria-label="LinkedIn">
+              <a
+                href="https://www.linkedin.com/company/urban-refuge/"
+                className="hover:text-gray-300"
+                aria-label="LinkedIn"
+              >
                 <Linkedin className="text-white h-6 w-6" />
               </a>
             </div>
