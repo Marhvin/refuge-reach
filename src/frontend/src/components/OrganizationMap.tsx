@@ -1,12 +1,16 @@
-import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
+import { APIProvider, Map } from "@vis.gl/react-google-maps";
 import { Organization } from "shared";
-import { coordinateTransformer } from "../transformers/coordinate.transformers";
+import OrganizationMarker from "./OrganizationMarker";
 
 interface OrganizationMapProps {
   organizations: Organization[];
+  setSelectedOrganization: (organization: Organization) => void;
 }
 
-const OrganizationMap: React.FC<OrganizationMapProps> = ({ organizations }) => {
+const OrganizationMap: React.FC<OrganizationMapProps> = ({
+  organizations,
+  setSelectedOrganization,
+}) => {
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <Map
@@ -14,12 +18,15 @@ const OrganizationMap: React.FC<OrganizationMapProps> = ({ organizations }) => {
         defaultCenter={{ lat: 42.35680633300423, lng: -71.06049465910974 }}
         defaultZoom={12}
         gestureHandling={"greedy"}
-        disableDefaultUI={true}>
+        disableDefaultUI={true}
+        mapId={"8a70719044abaac4"}>
         {organizations.map((organization: Organization) => {
           if (organization.isPhysicalAddress && organization.coordinates)
             return (
-              <Marker
-                position={coordinateTransformer(organization.coordinates)}
+              <OrganizationMarker
+                key={organization.id}
+                organization={organization}
+                setSelectedOrganization={setSelectedOrganization}
               />
             );
         })}

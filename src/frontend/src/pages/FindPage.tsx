@@ -46,11 +46,10 @@ const FindPage: React.FC = () => {
                   key={organization.id}
                   variant="ghost"
                   className={cn(
-                    "w-full h-max justify-start px-6 py-12 text-left text-wrap shadow rounded-none",
+                    "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => setSelectedOrganization(organization)}
-                >
+                  onClick={() => setSelectedOrganization(organization)}>
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -71,7 +70,10 @@ const FindPage: React.FC = () => {
         <main className="flex-1 flex flex-col">
           <div className="flex-1">
             {organizations ? (
-              <OrganizationMap organizations={organizations} />
+              <OrganizationMap
+                organizations={organizations}
+                setSelectedOrganization={setSelectedOrganization}
+              />
             ) : (
               <Loader2 />
             )}
@@ -114,8 +116,7 @@ const FindPage: React.FC = () => {
                         href={selectedOrganization.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-lg"
-                      >
+                        className="text-lg">
                         Visit Website
                         <ExternalLink className="ml-2 h-5 w-5" />
                       </a>
