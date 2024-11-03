@@ -16,8 +16,8 @@ export default class OrganizationsService {
 
   static async createOrganization(
     name: string,
-    serviceTypes: string[],
-    tags: string[],
+    serviceType: string[],
+    extraFilters: string[],
     isPhysicalAddress: boolean,
     website?: string,
     description?: string,
@@ -26,9 +26,11 @@ export default class OrganizationsService {
     phoneNumber?: string,
     servicesOfferedLanguages?: string
   ): Promise<Organization> {
+    // TODO: Check if the user has auth to create an organization
+
     try {
-      const serviceTypesPrisma = serviceTypes.map(stringToServiceType);
-      const tagsPrisma = tags.map(stringToOrganizationTag);
+      const serviceTypesPrisma = serviceType.map(stringToServiceType);
+      const tagsPrisma = extraFilters.map(stringToOrganizationTag);
 
       const organization = await prisma.organization.create({
         data: {

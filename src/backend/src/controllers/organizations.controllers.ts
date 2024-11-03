@@ -23,8 +23,8 @@ export default class OrganizationsController {
     try {
       const {
         name,
-        serviceTypes,
-        tags,
+        serviceType,
+        extraFilters,
         isPhysicalAddress,
         website,
         description,
@@ -36,8 +36,8 @@ export default class OrganizationsController {
 
       const organization = await OrganizationsService.createOrganization(
         name,
-        serviceTypes,
-        tags,
+        serviceType,
+        extraFilters,
         isPhysicalAddress,
         website,
         description,

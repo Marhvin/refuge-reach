@@ -41,7 +41,6 @@ const AdminPage: React.FC = () => {
     organization.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Form handling
   const {
     register,
     handleSubmit,
@@ -53,7 +52,6 @@ const AdminPage: React.FC = () => {
 
   useEffect(() => {
     if (selectedOrganization) {
-      // Populate form with selected organization's data
       reset(selectedOrganization);
     } else {
       reset();
@@ -63,7 +61,9 @@ const AdminPage: React.FC = () => {
   const onSubmit = (data: Organization) => {
     if (isCreating) {
       // Handle create organization
-      console.log("Creating organization:", data);
+      console.log("Creating organization:", {
+        ...data,
+      });
       // Call your API to create organization
     } else if (selectedOrganization) {
       // Handle update organization
