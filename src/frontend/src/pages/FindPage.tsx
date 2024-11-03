@@ -96,7 +96,8 @@ const FindPage: React.FC = () => {
                           ? [...prev, type]
                           : prev.filter((t) => t !== type)
                       );
-                    }}>
+                    }}
+                  >
                     {type}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -115,7 +116,8 @@ const FindPage: React.FC = () => {
                     "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => handleSelectOrganization(organization)}>
+                  onClick={() => setSelectedOrganization(organization)}
+                >
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -128,7 +130,7 @@ const FindPage: React.FC = () => {
                         </div>
                       )}
                     </div>
-                    <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+                    <div className="flex flex-wrap mt-3 gap-3 gap-y-2">
                       {organization.serviceType.map((type) => (
                         <Chip
                           key={type}

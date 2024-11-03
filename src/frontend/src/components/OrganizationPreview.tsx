@@ -25,7 +25,8 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
               href={organization.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lg">
+              className="text-lg"
+            >
               Visit Website
               <ExternalLink className="ml-2 h-5 w-5" />
             </a>
@@ -35,7 +36,7 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
         {organization.extraFilters.length > 0 && (
           <div className="bg-gray-200 pt-3 p-4 rounded-lg mt-2">
             <div>Tags</div>
-            <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+            <div className="flex flex-wrap mt-3 gap-3 gap-y-2">
               {organization.extraFilters.map((tag) => (
                 <Chip
                   key={`${organization.id}-${tag}`}
@@ -69,7 +70,7 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
 
         <div className="bg-gray-200 pt-3 p-4 rounded-lg mt-4">
           <div>Service Types</div>
-          <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+          <div className="flex flex-wrap mt-3 gap-3 gap-y-2">
             {organization.serviceType.map((type) => (
               <Chip
                 key={`${organization.id}-${type}`}
