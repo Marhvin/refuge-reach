@@ -9,18 +9,44 @@ import OrganizationMap from "../components/OrganizationMap";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import Chip from "../components/Chip";
-import OrganizationPreview from "../components/OrganizationPreview";
 import { serviceTypeColors } from "../types/organization.types";
+import { Input } from "../components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuCheckboxItem,
+  DropdownMenuLabel,
+} from "../components/ui/dropdown-menu";
 
 const FindPage: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] =
     useState<Organization | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+
   const {
     data: organizations,
     isLoading,
     isError,
     error,
   } = useGetAllOrganizations();
+
+  // Get the list of all unique service types
+  const organizationTypes = Array.from(
+    new Set(organizations?.flatMap((org) => org.serviceType) ?? [])
+  );
+
+  // Filter the organizations based on search query and selected types
+  const filteredOrganizations = organizations?.filter((organization) => {
+    const matchesSearch = organization.name
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    const matchesType =
+      selectedTypes.length === 0 ||
+      organization.serviceType.some((type) => selectedTypes.includes(type));
+    return matchesSearch && matchesType;
+  });
 
   if (isError || error) {
     return <div>Error: {error.message}</div>;
@@ -31,11 +57,44 @@ const FindPage: React.FC = () => {
       <Navbar></Navbar>
       <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
         <nav className="w-96 bg-background border-r">
+          <div className="p-4">
+            <Input
+              type="text"
+              placeholder="Search organizations"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="mt-2 w-full">
+                  Filter by Type
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Select Types</DropdownMenuLabel>
+                {organizationTypes.map((type) => (
+                  <DropdownMenuCheckboxItem
+                    key={type}
+                    checked={selectedTypes.includes(type)}
+                    onCheckedChange={(checked) => {
+                      setSelectedTypes((prev) =>
+                        checked
+                          ? [...prev, type]
+                          : prev.filter((t) => t !== type)
+                      );
+                    }}
+                  >
+                    {type}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <ScrollArea className="h-full">
             {isLoading && <Loader2 />}
 
-            {organizations &&
-              organizations.map((organization) => (
+            {filteredOrganizations &&
+              filteredOrganizations.map((organization) => (
                 <Button
                   key={organization.id}
                   variant="ghost"
@@ -43,7 +102,8 @@ const FindPage: React.FC = () => {
                     "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => setSelectedOrganization(organization)}>
+                  onClick={() => setSelectedOrganization(organization)}
+                >
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -74,9 +134,9 @@ const FindPage: React.FC = () => {
         </nav>
         <main className="flex-1 flex flex-col">
           <div className="flex-1">
-            {organizations ? (
+            {filteredOrganizations ? (
               <OrganizationMap
-                organizations={organizations}
+                organizations={filteredOrganizations}
                 setSelectedOrganization={setSelectedOrganization}
               />
             ) : (
