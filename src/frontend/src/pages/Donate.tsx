@@ -13,7 +13,7 @@ export default function Donate() {
               <img
                 src="https://images.pexels.com/photos/10629451/pexels-photo-10629451.jpeg?auto=compress&cs=tinysrgb&w=800"
                 alt="Description"
-                className="size-3/5 rounded-lg pr-8"
+                className="size-3/5 rounded-lg"
               />
               <div className="flex-1">
                 <p className=" text-white text-7xl font-bold pb-12">
