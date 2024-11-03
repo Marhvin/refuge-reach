@@ -5,4 +5,6 @@ const organizationsRouter = Router();
 
 organizationsRouter.get("/", OrganizationsController.getOrganizations);
 
+organizationsRouter.post("/new", OrganizationsController.createOrganization);
+
 export default organizationsRouter;

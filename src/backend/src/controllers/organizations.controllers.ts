@@ -14,4 +14,42 @@ export default class OrganizationsController {
       next(err);
     }
   }
+
+  static async createOrganization(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const {
+        name,
+        serviceTypes,
+        tags,
+        isPhysicalAddress,
+        website,
+        description,
+        address,
+        hours,
+        phoneNumber,
+        servicesOfferedLanguages,
+      } = req.body;
+
+      const organization = await OrganizationsService.createOrganization(
+        name,
+        serviceTypes,
+        tags,
+        isPhysicalAddress,
+        website,
+        description,
+        address,
+        hours,
+        phoneNumber,
+        servicesOfferedLanguages
+      );
+
+      res.status(201).json(organization);
+    } catch (err: unknown) {
+      next(err);
+    }
+  }
 }

@@ -1,11 +1,53 @@
-import { organizationTransformer } from "../transformers/organization.transformers";
+import {
+  organizationTransformer,
+  stringToOrganizationTag,
+  stringToServiceType,
+} from "../transformers/organization.transformers";
 import prisma from "../prisma/prisma";
 import { Organization } from "../../../shared";
+import { HttpException } from "../utils/error.utils";
 
 export default class OrganizationsService {
   static async getOrganizations(): Promise<Organization[]> {
     const organizations = await prisma.organization.findMany();
 
     return organizations.map(organizationTransformer);
+  }
+
+  static async createOrganization(
+    name: string,
+    serviceTypes: string[],
+    tags: string[],
+    isPhysicalAddress: boolean,
+    website?: string,
+    description?: string,
+    address?: string,
+    hours?: string,
+    phoneNumber?: string,
+    servicesOfferedLanguages?: string
+  ): Promise<Organization> {
+    try {
+      const serviceTypesPrisma = serviceTypes.map(stringToServiceType);
+      const tagsPrisma = tags.map(stringToOrganizationTag);
+
+      const organization = await prisma.organization.create({
+        data: {
+          name,
+          serviceType: serviceTypesPrisma,
+          extraFilters: tagsPrisma,
+          isPhysicalAddress,
+          website,
+          description,
+          address,
+          hours,
+          phoneNumber,
+          servicesOfferedLanguages,
+        },
+      });
+
+      return organizationTransformer(organization);
+    } catch {
+      throw new HttpException(400, "Failed to create organization");
+    }
   }
 }
