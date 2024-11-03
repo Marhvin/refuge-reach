@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useGetAllOrganizations } from "../hooks/organizations.hooks";
-
 import { MapPin, Phone, Clock, ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
@@ -17,6 +16,29 @@ import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
+
+const serviceTypeColors = {
+  EDUCATION: "bg-blue-300 text-black",
+  LEGAL: "bg-green-300 text-black",
+  HOUSING: "bg-red-300 text-black",
+  HEALTHCARE: "bg-purple-300 text-black",
+  FOOD: "bg-yellow-300 text-black",
+  EMPLOYMENT: "bg-orange-300 text-black",
+  MENTAL_HEALTH: "bg-pink-300 text-black",
+};
+
+const Chip: React.FC<{ label: string; colorClass: string }> = ({
+  label,
+  colorClass,
+}) => {
+  return (
+    <div
+      className={cn("px-3 py-1 rounded-full text-sm font-medium", colorClass)}
+    >
+      {label}
+    </div>
+  );
+};
 
 const FindPage: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] =
@@ -49,7 +71,8 @@ const FindPage: React.FC = () => {
                     "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => setSelectedOrganization(organization)}>
+                  onClick={() => setSelectedOrganization(organization)}
+                >
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -57,10 +80,21 @@ const FindPage: React.FC = () => {
                     <div className="mt-2">
                       {organization.address && (
                         <div className="flex items-center text-sm">
-                          <MapPin className="mr-2 h-4 w-4" />
+                          <MapPin className="h-4 w-4" />
                           <span>{organization.address}</span>
                         </div>
                       )}
+                    </div>
+                    <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+                      {organization.serviceType.map((type) => (
+                        <Chip
+                          key={type}
+                          label={type}
+                          colorClass={
+                            serviceTypeColors[type] || "bg-gray-300 text-black"
+                          }
+                        />
+                      ))}
                     </div>
                   </div>
                 </Button>
@@ -116,7 +150,8 @@ const FindPage: React.FC = () => {
                         href={selectedOrganization.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-lg">
+                        className="text-lg"
+                      >
                         Visit Website
                         <ExternalLink className="ml-2 h-5 w-5" />
                       </a>
