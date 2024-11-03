@@ -20,14 +20,29 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
         <p className="my-3">{organization.description}</p>
 
         {organization.website && (
-          <Button asChild variant="outline" size="lg" className="px-4 mb-3">
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="px-4 mb-3 mr-4">
             <a
               href={organization.website}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lg"
-            >
+              className="text-lg">
               Visit Website
+              <ExternalLink className="ml-2 h-5 w-5" />
+            </a>
+          </Button>
+        )}
+        {organization.coordinates && (
+          <Button asChild variant="outline" size="lg" className="px-4 mb-3">
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${organization.coordinates}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-lg">
+              Get Directions
               <ExternalLink className="ml-2 h-5 w-5" />
             </a>
           </Button>
