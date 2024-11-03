@@ -1,14 +1,30 @@
+import { Navbar } from "../components/navbar";
 import { Button } from "../components/ui/button";
 
 export default function Donate() {
   return (
-    <div className="flex flex-col items-center justify-center gap-5 ">
-      <div className="bg-blue-800 text-white text-7xl font-bold py-[120px] px-[450px] transform transition-transform">
-        Donate today for a better tomorrow.
+    <>
+      <Navbar></Navbar>
+      <div className="flex flex-col items-center gap-1 ">
+        <div className="bg-blue-800 py-[30px] px-[450px] transform transition-transform">
+          <div className="flex items-center justify-betwee gap-5">
+            <img
+              src="https://images.pexels.com/photos/10629451/pexels-photo-10629451.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="Description"
+              className="size-3/5 rounded-sm"
+            />
+            <div className="flex-1">
+              <p className=" text-white text-7xl font-bold">
+                Donate today for a better tomorrow.
+              </p>
+            </div>
+          </div>
+        </div>
+        <Button className="text-2xl bg-blue-500 text-white hover:bg-blue-700 m-8">
+          Donate to Urban Refuge
+        </Button>
       </div>
-      <Button className="text-2xl">Donate to Urban Refuge</Button>
-      <h1>Questions about your donation? Visit our FAQ page.</h1>
-    </div>
+    </>
   );
 }
 
