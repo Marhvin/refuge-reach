@@ -12,19 +12,18 @@ import {
   Heart,
   Users,
   MapPin,
-  HelpingHand,
+  Handshake,
   Target,
   EyeOff,
 } from "lucide-react";
-import { Navbar } from "../components/navbar";
-import { Footer } from "../components/footer";
+import { Navbar } from "../components/Navbar";
+import { Footer } from "../components/Footer";
 import LazyLoad from "react-lazy-load";
 
 export default function Home() {
   const [heroLoaded, setHeroLoaded] = useState(false);
 
   useEffect(() => {
-    // Set heroLoaded to true after a short delay to trigger the animation
     const timer = setTimeout(() => setHeroLoaded(true), 100);
     return () => clearTimeout(timer);
   }, []);
@@ -47,15 +46,15 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-blue-800 opacity-30"></div>
         <div className="relative z-10">
-          <h1 className="text-5xl font-bold mb-4 text-white">
+          <h1 className="text-5xl font-bold mb-4 text-white animate-fade-in-down">
             Welcome to Urban Refuge
           </h1>
-          <p className="text-2xl mb-6 text-white">
+          <p className="text-2xl mb-6 text-white animate-fade-in-down delay-100">
             Making aid accessible for refugees.
           </p>
           <Button
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white"
+            className="bg-blue-500 hover:bg-blue-600 text-white animate-fade-in-down delay-200"
           >
             <a href="/find" className="flex items-center">
               Find Resources <ArrowRight className="ml-2 h-4 w-4" />
@@ -66,12 +65,12 @@ export default function Home() {
 
       {/* What We Do Section */}
       <section className="py-12">
-        <div className="flex items-center justify-center mb-8">
+        <div className="flex items-center justify-center mb-8 animate-fade-in-up">
           <h2 className="text-4xl font-bold text-blue-800">What We Do</h2>
-          <HelpingHand className="ml-3 h-8 w-8 text-amber-500" />
+          <Handshake className="ml-3 h-8 w-8 text-amber-500" />
         </div>
         <div className="grid md:grid-cols-3 gap-8 mb-12 px-16">
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative">
+          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-100">
             <CardHeader>
               <CardTitle className="flex items-center text-2xl mb-4">
                 <MapPin className="mr-2 h-7 w-7 text-red-500" />
@@ -87,7 +86,7 @@ export default function Home() {
               </CardDescription>
             </CardContent>
           </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative">
+          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-200">
             <CardHeader>
               <CardTitle className="flex items-center text-2xl mb-4">
                 <Users className="mr-2 h-7 w-7 text-green-500" />
@@ -103,7 +102,7 @@ export default function Home() {
               </CardDescription>
             </CardContent>
           </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative">
+          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-300">
             <CardHeader>
               <CardTitle className="flex items-center text-2xl mb-4">
                 <Heart className="mr-2 h-7 w-7 text-blue-500" />
@@ -123,17 +122,18 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Mission and Privacy Sections */}
+      {/* Our Mission and Who We Are Sections */}
       <section className="bg-white py-12">
+        {/* Our Mission Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center px-12">
           {/* Image for Our Mission Section */}
           <img
             src="/stock.jpg"
             alt="Stock Image"
-            className="w-full h-auto rounded-lg shadow-md"
+            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
           />
-          {/* Our Mission Section */}
-          <div>
+          {/* Our Mission Text */}
+          <div className="animate-fade-in-right">
             <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
               Our Mission
               <Target className="ml-3 h-8 w-8 text-amber-500" />
@@ -147,10 +147,47 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Who We Are Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center mt-16 px-12">
-          {/* Our Commitment to Privacy Section */}
-          <div>
-            <h2 className="text-3xl font-bold mb-8 text-center md:text-left text-blue-800 flex items-center">
+          {/* Who We Are Text */}
+          <div className="animate-fade-in-left">
+            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
+              Who We Are
+              <Users className="ml-3 h-8 w-8 text-amber-500" />
+            </h2>
+            <p className="text-lg">
+              Urban Refuge is a dedicated team committed to making aid
+              accessible for refugees. Our mission is to bridge the gap between
+              refugees and the resources they need to thrive in urban
+              environments.
+            </p>
+          </div>
+          {/* Video */}
+          <LazyLoad className="animate-fade-in-right">
+            <video
+              className="w-full h-auto rounded-lg shadow-md mb-5"
+              controls
+              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+            >
+              <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </LazyLoad>
+        </div>
+      </section>
+
+      {/* Our Commitment to Privacy Section */}
+      <section className="bg-white py-12">
+        <div className="grid md:grid-cols-2 gap-12 items-center px-12">
+          {/* Image for Privacy Section */}
+          <img
+            src="/city.jpg"
+            alt="City Image"
+            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
+          />
+          {/* Privacy Text */}
+          <div className="animate-fade-in-right">
+            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
               Our Commitment to Privacy
               <EyeOff className="ml-3 h-8 w-8 text-amber-500" />
             </h2>
@@ -161,26 +198,31 @@ export default function Home() {
               <li>All information is collected from public sources.</li>
             </ul>
           </div>
-          {/* Image for Our Commitment to Privacy Section */}
-          <img
-            src="/city.jpg"
-            alt="City Image"
-            className="w-full h-auto rounded-lg shadow-md"
-          />
         </div>
       </section>
-      <div className="flex flex-row justify-center">
-        <LazyLoad className="w-2/3">
-          <video
-            className="w-full h-auto rounded-lg shadow-md mb-5"
-            controls
-            poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+
+      {/* Donation Section */}
+      <section className="bg-gray-100 py-12 bg-white">
+        <div className="container mx-auto px-6 text-center animate-fade-in-up">
+          <h2 className="text-3xl font-bold mb-8 text-blue-800 flex items-center justify-center">
+            Support Our Cause
+            <Heart className="ml-3 h-8 w-8 text-red-500" />
+          </h2>
+          <p className="text-lg mb-8">
+            Your contributions help us to provide vital resources to refugees in
+            need. Consider making a donation to support our mission.
+          </p>
+          <Button
+            size="lg"
+            className="bg-blue-500 hover:bg-blue-600 text-white"
           >
-            <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </LazyLoad>
-      </div>
+            <a href="/donate" className="flex items-center">
+              Donate Now <ArrowRight className="ml-2 h-4 w-4" />
+            </a>
+          </Button>
+        </div>
+      </section>
+
       <Footer />
     </main>
   );
