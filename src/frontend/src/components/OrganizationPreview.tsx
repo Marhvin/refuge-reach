@@ -33,7 +33,7 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
         )}
 
         {organization.extraFilters.length > 0 && (
-          <div className="bg-gray-200 pt-3 p-4 rounded-lg mt-4">
+          <div className="bg-gray-200 pt-3 p-4 rounded-lg mt-2">
             <div>Tags</div>
             <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
               {organization.extraFilters.map((tag) => (
