@@ -81,6 +81,7 @@ export default class OrganizationsService {
   }
 
   static async editOrganization(
+    idToken: string,
     id: string,
     name: string,
     serviceTypes: string[],
@@ -99,6 +100,29 @@ export default class OrganizationsService {
     if (!organization)
       throw new HttpException(404, `Organization with id ${id} not found`);
 
+    const owner = await getUserFromIdToken(idToken);
+    const isOwnerAdmin = isAdmin(owner.email);
+    if (!isOwnerAdmin)
+      throw new AccessDeniedException(
+        403,
+        "Only admins can create organizations"
+      );
+
+    let addressCoordinates: string | null = null;
+    if (isPhysicalAddress && isPhysicalAddress === true) {
+      if (!address)
+        throw new HttpException(400, "Physical address is required");
+      else if (address !== organization.address) {
+        // Only update the coordinates if the address has changed
+        try {
+          addressCoordinates = await addressTransformer(address);
+        } catch (error) {
+          console.log("Failed to geocode address", error);
+          throw new HttpException(400, "Failed to geocode address");
+        }
+      }
+    }
+
     try {
       const serviceTypesPrisma = serviceTypes.map(stringToServiceType);
       const tagsPrisma = tags.map(stringToOrganizationTag);
@@ -113,6 +137,7 @@ export default class OrganizationsService {
           website,
           description,
           address,
+          coordinates: addressCoordinates,
           hours,
           phoneNumber,
           servicesOfferedLanguages,

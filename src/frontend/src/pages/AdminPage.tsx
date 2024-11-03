@@ -70,7 +70,6 @@ const AdminPage: React.FC = () => {
 
   const onSubmit = (data: Organization) => {
     if (isCreating) {
-      console.log("Creating organization:", data);
       fetch(`${API_URL}/organizations/new`, {
         method: "POST",
         headers: {
@@ -90,9 +89,24 @@ const AdminPage: React.FC = () => {
           alert("An error occurred. Please try again.");
         });
     } else if (selectedOrganization) {
-      // Handle update organization
-      console.log("Updating organization:", data);
-      // Call your API to update organization
+      fetch(`${API_URL}/organizations/${selectedOrganization.id}/edit`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) throw new Error();
+
+          queryClient.invalidateQueries({ queryKey: ["organizations"] });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
+        });
     }
     setSelectedOrganization(null);
     setIsCreating(false);
