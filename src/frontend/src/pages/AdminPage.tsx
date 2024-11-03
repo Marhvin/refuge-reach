@@ -95,7 +95,6 @@ const AdminPage: React.FC = () => {
     setIsCreating(false);
   };
 
-  const serviceType = watch("serviceType") || [];
   const extraFilters = watch("extraFilters") || [];
 
   if (isError || error) {
@@ -187,7 +186,7 @@ const AdminPage: React.FC = () => {
                     {...register("address", {
                       validate: (value) =>
                         isPhysicalAddress && !value
-                          ? "Address is required when 'Has a physical address' is checked"
+                          ? "Address is required when 'Is a physical address' is checked"
                           : true,
                     })}
                   />
