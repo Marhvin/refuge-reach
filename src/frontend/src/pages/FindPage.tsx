@@ -1,32 +1,16 @@
 import { useState } from "react";
 import { useGetAllOrganizations } from "../hooks/organizations.hooks";
-import { MapPin, Phone, Clock, ExternalLink, Loader2 } from "lucide-react";
+import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
 import Chip from "../components/Chip";
-
-const serviceTypeColors = {
-  EDUCATION: "bg-blue-300 text-black",
-  LEGAL: "bg-green-300 text-black",
-  HOUSING: "bg-red-300 text-black",
-  HEALTHCARE: "bg-purple-300 text-black",
-  FOOD: "bg-yellow-300 text-black",
-  EMPLOYMENT: "bg-orange-300 text-black",
-  MENTAL_HEALTH: "bg-pink-300 text-black",
-};
+import OrganizationPreview from "../components/OrganizationPreview";
+import { serviceTypeColors } from "../types/organization.types";
 
 const FindPage: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] =
@@ -101,50 +85,7 @@ const FindPage: React.FC = () => {
           </div>
           <div className="h-80 p-6 bg-background overflow-auto">
             {selectedOrganization ? (
-              <Card className="w-full max-w-2xl mx-auto">
-                <CardHeader>
-                  <CardTitle className="text-2xl">
-                    {selectedOrganization.name}
-                  </CardTitle>
-                  <CardDescription className="text-lg">
-                    Store Information
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {selectedOrganization.address && (
-                    <div className="flex items-center text-lg">
-                      <MapPin className="mr-3 h-5 w-5" />
-                      <span>{selectedOrganization.address}</span>
-                    </div>
-                  )}
-                  {selectedOrganization.phoneNumber && (
-                    <div className="flex items-center text-lg">
-                      <Phone className="mr-3 h-5 w-5" />
-                      <span>{selectedOrganization.phoneNumber}</span>
-                    </div>
-                  )}
-                  {selectedOrganization.hours && (
-                    <div className="flex items-center text-lg">
-                      <Clock className="mr-3 h-5 w-5" />
-                      <span>{selectedOrganization.hours}</span>
-                    </div>
-                  )}
-                </CardContent>
-                {selectedOrganization.website && (
-                  <CardFooter>
-                    <Button asChild variant="outline" size="lg">
-                      <a
-                        href={selectedOrganization.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-lg">
-                        Visit Website
-                        <ExternalLink className="ml-2 h-5 w-5" />
-                      </a>
-                    </Button>
-                  </CardFooter>
-                )}
-              </Card>
+              <OrganizationPreview organization={selectedOrganization} />
             ) : (
               <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
                 Select a store to view details
