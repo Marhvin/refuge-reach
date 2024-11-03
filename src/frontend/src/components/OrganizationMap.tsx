@@ -32,7 +32,8 @@ const OrganizationMap: React.FC<OrganizationMapProps> = ({
       center: mapCenter,
       zoom: cameraProps.zoom,
     });
-  }, [cameraProps.zoom, mapCenter]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapCenter]);
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
