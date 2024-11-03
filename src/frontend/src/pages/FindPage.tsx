@@ -16,6 +16,7 @@ import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
 import { Footer } from "../components/footer";
 import { Navbar } from "../components/navbar";
+import Chip from "../components/Chip";
 
 const serviceTypeColors = {
   EDUCATION: "bg-blue-300 text-black",
@@ -25,19 +26,6 @@ const serviceTypeColors = {
   FOOD: "bg-yellow-300 text-black",
   EMPLOYMENT: "bg-orange-300 text-black",
   MENTAL_HEALTH: "bg-pink-300 text-black",
-};
-
-const Chip: React.FC<{ label: string; colorClass: string }> = ({
-  label,
-  colorClass,
-}) => {
-  return (
-    <div
-      className={cn("px-3 py-1 rounded-full text-sm font-medium", colorClass)}
-    >
-      {label}
-    </div>
-  );
 };
 
 const FindPage: React.FC = () => {
@@ -71,8 +59,7 @@ const FindPage: React.FC = () => {
                     "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => setSelectedOrganization(organization)}
-                >
+                  onClick={() => setSelectedOrganization(organization)}>
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -150,8 +137,7 @@ const FindPage: React.FC = () => {
                         href={selectedOrganization.website}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-lg"
-                      >
+                        className="text-lg">
                         Visit Website
                         <ExternalLink className="ml-2 h-5 w-5" />
                       </a>
