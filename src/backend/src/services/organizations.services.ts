@@ -50,4 +50,52 @@ export default class OrganizationsService {
       throw new HttpException(400, "Failed to create organization");
     }
   }
+
+  static async editOrganization(
+    id: string,
+    name: string,
+    serviceTypes: string[],
+    tags: string[],
+    isPhysicalAddress: boolean,
+    website?: string,
+    description?: string,
+    address?: string,
+    hours?: string,
+    phoneNumber?: string,
+    servicesOfferedLanguages?: string
+  ): Promise<Organization> {
+    const organization = await prisma.organization.findUnique({
+      where: { id },
+    });
+    if (!organization)
+      throw new HttpException(404, `Organization with id ${id} not found`);
+
+    try {
+      const serviceTypesPrisma = serviceTypes.map(stringToServiceType);
+      const tagsPrisma = tags.map(stringToOrganizationTag);
+
+      const updatedOrganization = await prisma.organization.update({
+        where: { id },
+        data: {
+          name,
+          serviceType: serviceTypesPrisma,
+          extraFilters: tagsPrisma,
+          isPhysicalAddress,
+          website,
+          description,
+          address,
+          hours,
+          phoneNumber,
+          servicesOfferedLanguages,
+        },
+      });
+
+      return organizationTransformer(updatedOrganization);
+    } catch {
+      throw new HttpException(
+        400,
+        `Failed to edit organization with id: ${id}`
+      );
+    }
+  }
 }

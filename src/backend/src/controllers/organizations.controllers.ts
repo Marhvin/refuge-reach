@@ -52,4 +52,44 @@ export default class OrganizationsController {
       next(err);
     }
   }
+
+  static async editOrganization(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const {
+        id,
+        name,
+        serviceTypes,
+        tags,
+        isPhysicalAddress,
+        website,
+        description,
+        address,
+        hours,
+        phoneNumber,
+        servicesOfferedLanguages,
+      } = req.body;
+
+      const organization = await OrganizationsService.editOrganization(
+        id,
+        name,
+        serviceTypes,
+        tags,
+        isPhysicalAddress,
+        website,
+        description,
+        address,
+        hours,
+        phoneNumber,
+        servicesOfferedLanguages
+      );
+
+      res.status(201).json(organization);
+    } catch (err: unknown) {
+      next(err);
+    }
+  }
 }
