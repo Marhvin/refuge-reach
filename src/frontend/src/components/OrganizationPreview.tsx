@@ -38,7 +38,7 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
             <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
               {organization.extraFilters.map((tag) => (
                 <Chip
-                  key={tag}
+                  key={`${organization.id}-${tag}`}
                   label={tag}
                   colorClass={"bg-gray-300 text-black"}
                 />
@@ -72,7 +72,7 @@ const OrganizationPreview: React.FC<OrganizationPreviewProps> = ({
           <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
             {organization.serviceType.map((type) => (
               <Chip
-                key={type}
+                key={`${organization.id}-${type}`}
                 label={type}
                 colorClass={serviceTypeColors[type] || "bg-gray-300 text-black"}
               />

@@ -18,8 +18,14 @@ import {
   DropdownMenuCheckboxItem,
   DropdownMenuLabel,
 } from "../components/ui/dropdown-menu";
+import OrganizationPreview from "../components/OrganizationPreview";
+import { coordinateTransformer } from "../transformers/coordinate.transformers";
 
 const FindPage: React.FC = () => {
+  const [mapCenter, setMapCenter] = useState({
+    lat: 42.35680633300423,
+    lng: -71.06049465910974,
+  });
   const [selectedOrganization, setSelectedOrganization] =
     useState<Organization | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
@@ -52,6 +58,14 @@ const FindPage: React.FC = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const handleSelectOrganization = (organization: Organization) => {
+    setSelectedOrganization(organization);
+    if (organization.coordinates) {
+      console.log("organization.coordinates", organization.coordinates);
+      setMapCenter(coordinateTransformer(organization.coordinates));
+    }
+  };
+
   return (
     <div>
       <Navbar></Navbar>
@@ -76,14 +90,13 @@ const FindPage: React.FC = () => {
                   <DropdownMenuCheckboxItem
                     key={type}
                     checked={selectedTypes.includes(type)}
-                    onCheckedChange={(checked) => {
+                    onCheckedChange={(checked: boolean) => {
                       setSelectedTypes((prev) =>
                         checked
                           ? [...prev, type]
                           : prev.filter((t) => t !== type)
                       );
-                    }}
-                  >
+                    }}>
                     {type}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -102,8 +115,7 @@ const FindPage: React.FC = () => {
                     "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
-                  onClick={() => setSelectedOrganization(organization)}
-                >
+                  onClick={() => handleSelectOrganization(organization)}>
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -138,6 +150,7 @@ const FindPage: React.FC = () => {
               <OrganizationMap
                 organizations={filteredOrganizations}
                 setSelectedOrganization={setSelectedOrganization}
+                mapCenter={mapCenter}
               />
             ) : (
               <Loader2 />
