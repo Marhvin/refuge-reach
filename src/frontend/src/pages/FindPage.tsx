@@ -46,7 +46,7 @@ const FindPage: React.FC = () => {
                   key={organization.id}
                   variant="ghost"
                   className={cn(
-                    "w-full justify-start px-6 py-12 text-left text-wrap",
+                    "w-full h-max justify-start px-6 py-12 text-left text-wrap shadow rounded-none",
                     selectedOrganization?.id === organization.id && "bg-accent"
                   )}
                   onClick={() => setSelectedOrganization(organization)}
