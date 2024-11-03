@@ -9,7 +9,7 @@ const UserAuthCallback: React.FC = () => {
     if (code) {
       const url =
         import.meta.env.VITE_API_BASE_URL ||
-        "http://localhost:7071/user/login/code";
+        "http://localhost:5767/user/login/code";
 
       const bodyData = JSON.stringify({
         code: code,

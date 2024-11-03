@@ -25,7 +25,7 @@ const Login: React.FC = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:7071/user/get", {
+    fetch("http://localhost:5767/user/get", {
       method: "GET",
       credentials: "include",
     })
