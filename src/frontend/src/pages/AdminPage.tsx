@@ -7,29 +7,19 @@ import { Input } from "../components/ui/input";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
-import { Organization } from "shared";
+import {
+  Organization,
+  OrganizationServiceType,
+  OrganizationTags,
+} from "shared";
 import { Checkbox } from "../components/ui/checkbox";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { useForm } from "react-hook-form";
+import { enumToList } from "../transformers/organization.transformers";
 
-const organizationServiceTypes = [
-  "EDUCATION",
-  "LEGAL",
-  "HOUSING",
-  "HEALTHCARE",
-  "FOOD",
-  "EMPLOYMENT",
-  "MENTAL_HEALTH",
-];
-
-const organizationTags = [
-  "PARKING_AVAILABLE",
-  "MBTA_ACCESSIBLE",
-  "WHEELCHAIR_ACCESSIBLE",
-  "LGBTQ_FRIENDLY",
-  "DIGITAL_RESOURCES_ONLY",
-];
+const organizationServiceTypes = enumToList(OrganizationServiceType);
+const organizationTags = enumToList(OrganizationTags);
 
 const AdminPage: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] =
@@ -205,24 +195,27 @@ const AdminPage: React.FC = () => {
                     Service Type<span className="text-red-500 ml-1">*</span>
                   </Label>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {organizationServiceTypes.map((type) => (
-                      <div key={type} className="flex items-center">
-                        <Checkbox
-                          checked={serviceType.includes(type)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setValue("serviceType", [...serviceType, type]);
-                            } else {
-                              setValue(
-                                "serviceType",
-                                serviceType.filter((t) => t !== type)
-                              );
-                            }
-                          }}
-                        />
-                        <Label className="ml-2">{type}</Label>
-                      </div>
-                    ))}
+                    {organizationServiceTypes.map((type: string) => {
+                      const st = type as OrganizationServiceType;
+                      return (
+                        <div key={type} className="flex items-center">
+                          <Checkbox
+                            checked={serviceType.includes(st)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setValue("serviceType", [...serviceType, st]);
+                              } else {
+                                setValue(
+                                  "serviceType",
+                                  serviceType.filter((t) => t !== type)
+                                );
+                              }
+                            }}
+                          />
+                          <Label className="ml-2">{type}</Label>
+                        </div>
+                      );
+                    })}
                   </div>
                   {errors.serviceType && (
                     <span className="text-red-500">This field is required</span>
@@ -232,24 +225,27 @@ const AdminPage: React.FC = () => {
                 <div>
                   <Label>Tags</Label>
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {organizationTags.map((tag) => (
-                      <div key={tag} className="flex items-center">
-                        <Checkbox
-                          checked={extraFilters.includes(tag)}
-                          onCheckedChange={(checked) => {
-                            if (checked) {
-                              setValue("extraFilters", [...extraFilters, tag]);
-                            } else {
-                              setValue(
-                                "extraFilters",
-                                extraFilters.filter((t) => t !== tag)
-                              );
-                            }
-                          }}
-                        />
-                        <Label className="ml-2">{tag}</Label>
-                      </div>
-                    ))}
+                    {organizationTags.map((tag: string) => {
+                      const st = tag as OrganizationTags;
+                      return (
+                        <div key={tag} className="flex items-center">
+                          <Checkbox
+                            checked={extraFilters.includes(st)}
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setValue("extraFilters", [...extraFilters, st]);
+                              } else {
+                                setValue(
+                                  "extraFilters",
+                                  extraFilters.filter((t) => t !== st)
+                                );
+                              }
+                            }}
+                          />
+                          <Label className="ml-2">{tag}</Label>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
 
