@@ -1,8 +1,8 @@
 export function Navbar() {
   return (
     <nav className="bg-gray-50 text-blue-900 shadow-md">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-24">
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between h-28">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
             <a href="/">
@@ -27,7 +27,8 @@ export function Navbar() {
             <div>
               <a
                 href="/donate"
-                className="border-2 border-blue-900 text-blue-900 px-4 py-2 rounded-lg hover:bg-blue-900 hover:text-white transition-colors">
+                className="border-2 border-blue-900 text-blue-900 px-4 py-2 rounded-lg hover:bg-blue-900 hover:text-white transition-colors"
+              >
                 Donate
               </a>
             </div>
