@@ -45,3 +45,10 @@ model Organization {
   phoneNumber              String?
   servicesOfferedLanguages String?
 }
+
+model User {
+  id       String @id @default(uuid())
+  googleId String @unique
+  name     String
+  email    String @unique
+}
