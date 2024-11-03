@@ -15,7 +15,7 @@ import {
 import { Checkbox } from "../components/ui/checkbox";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { enumToList } from "../transformers/organization.transformers";
 import { useAuthenticatedResource } from "../hooks/useAuthenticatedResource";
 
@@ -47,8 +47,15 @@ const AdminPage: React.FC = () => {
     reset,
     setValue,
     watch,
+    control,
     formState: { errors },
-  } = useForm<Organization>();
+  } = useForm<Organization>({
+    defaultValues: {
+      serviceType: [],
+    },
+  });
+
+  const isPhysicalAddress = watch("isPhysicalAddress", false);
 
   useEffect(() => {
     if (selectedOrganization) {
@@ -175,7 +182,40 @@ const AdminPage: React.FC = () => {
 
                 <div>
                   <Label htmlFor="address">Address</Label>
-                  <Input id="address" {...register("address")} />
+                  <Input
+                    id="address"
+                    {...register("address", {
+                      validate: (value) =>
+                        isPhysicalAddress && !value
+                          ? "Address is required when 'Has a physical address' is checked"
+                          : true,
+                    })}
+                  />
+                  {errors.address && (
+                    <span className="text-red-500">
+                      {errors.address.message}
+                    </span>
+                  )}
+                </div>
+
+                <div className="flex items-center mt-4">
+                  <Controller
+                    name="isPhysicalAddress"
+                    control={control}
+                    defaultValue={false}
+                    render={({ field }) => (
+                      <Checkbox
+                        id="isPhysicalAddress"
+                        checked={field.value}
+                        onCheckedChange={(checked: boolean) =>
+                          field.onChange(checked)
+                        }
+                      />
+                    )}
+                  />
+                  <Label htmlFor="isPhysicalAddress" className="ml-2">
+                    Is a physical address
+                  </Label>
                 </div>
 
                 <div>
@@ -193,37 +233,56 @@ const AdminPage: React.FC = () => {
                   <Input id="phoneNumber" {...register("phoneNumber")} />
                 </div>
 
-                <div>
-                  <Label>
-                    Service Type<span className="text-red-500 ml-1">*</span>
-                  </Label>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {organizationServiceTypes.map((type: string) => {
-                      const st = type as OrganizationServiceType;
-                      return (
-                        <div key={type} className="flex items-center">
-                          <Checkbox
-                            checked={serviceType.includes(st)}
-                            onCheckedChange={(checked) => {
-                              if (checked) {
-                                setValue("serviceType", [...serviceType, st]);
-                              } else {
-                                setValue(
-                                  "serviceType",
-                                  serviceType.filter((t) => t !== type)
-                                );
-                              }
-                            }}
-                          />
-                          <Label className="ml-2">{type}</Label>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  {errors.serviceType && (
-                    <span className="text-red-500">This field is required</span>
+                <Controller
+                  name="serviceType"
+                  control={control}
+                  defaultValue={[]}
+                  rules={{
+                    validate: (value) =>
+                      (value && value.length > 0) ||
+                      "At least one service type must be selected",
+                  }}
+                  render={({ field }) => (
+                    <div>
+                      <Label>
+                        Service Type<span className="text-red-500 ml-1">*</span>
+                      </Label>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {organizationServiceTypes.map((type: string) => {
+                          const st = type as OrganizationServiceType;
+                          const checked = field.value?.includes(st) || false;
+                          return (
+                            <div key={type} className="flex items-center">
+                              <Checkbox
+                                checked={checked}
+                                onCheckedChange={(checked) => {
+                                  if (checked) {
+                                    field.onChange([
+                                      ...(field.value || []),
+                                      st,
+                                    ]);
+                                  } else {
+                                    field.onChange(
+                                      field.value.filter(
+                                        (t: string) => t !== st
+                                      )
+                                    );
+                                  }
+                                }}
+                              />
+                              <Label className="ml-2">{type}</Label>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {errors.serviceType && (
+                        <span className="text-red-500">
+                          {errors.serviceType.message}
+                        </span>
+                      )}
+                    </div>
                   )}
-                </div>
+                />
 
                 <div>
                   <Label>Tags</Label>
@@ -251,17 +310,6 @@ const AdminPage: React.FC = () => {
                     })}
                   </div>
                 </div>
-
-                <div className="flex items-center mt-4">
-                  <Checkbox
-                    id="isPhysicalAddress"
-                    {...register("isPhysicalAddress")}
-                  />
-                  <Label htmlFor="isPhysicalAddress" className="ml-2">
-                    Has a physical address
-                  </Label>
-                </div>
-
                 <div>
                   <Label htmlFor="servicesOfferedLanguages">
                     Languages Offered
