@@ -21,13 +21,10 @@ import {
 import OrganizationPreview from "../components/OrganizationPreview";
 import { coordinateTransformer } from "../transformers/coordinate.transformers";
 import {
-  GoogleMap,
   useJsApiLoader,
   Autocomplete,
   Libraries,
 } from "@react-google-maps/api";
-
-const libraries: Libraries = ["places"];
 
 const FindPage: React.FC = () => {
   const [mapCenter, setMapCenter] = useState({
@@ -45,7 +42,7 @@ const FindPage: React.FC = () => {
   const [autocomplete, setAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
 
-  // Use the environment variable for the API key
+  const libraries: Libraries = ["places"];
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
     libraries,
@@ -58,13 +55,10 @@ const FindPage: React.FC = () => {
     error,
   } = useGetAllOrganizations();
 
-  // **Add this block to declare 'organizationTypes'**
-  // Get the list of all unique service types
   const organizationTypes = Array.from(
     new Set(organizations?.flatMap((org) => org.serviceType) ?? [])
   );
 
-  // Function to calculate distance between two coordinates
   const haversineDistance = (
     coords1: { lat: number; lng: number },
     coords2: { lat: number; lng: number }
@@ -83,7 +77,6 @@ const FindPage: React.FC = () => {
     return R * c;
   };
 
-  // Filter and sort the organizations based on search query, selected types, and distance
   const filteredOrganizations = organizations
     ?.filter((organization) => {
       const matchesSearch = organization.name
@@ -117,7 +110,6 @@ const FindPage: React.FC = () => {
   const handleSelectOrganization = (organization: Organization) => {
     setSelectedOrganization(organization);
     if (organization.coordinates) {
-      console.log("organization.coordinates", organization.coordinates);
       setMapCenter(coordinateTransformer(organization.coordinates));
     }
   };
@@ -174,8 +166,7 @@ const FindPage: React.FC = () => {
                             ? [...prev, type]
                             : prev.filter((t) => t !== type)
                         );
-                      }}
-                    >
+                      }}>
                       {type}
                     </DropdownMenuCheckboxItem>
                   ))}
@@ -184,8 +175,7 @@ const FindPage: React.FC = () => {
               <div className="mt-4">
                 <Autocomplete
                   onLoad={onLoadAutocomplete}
-                  onPlaceChanged={onPlaceChanged}
-                >
+                  onPlaceChanged={onPlaceChanged}>
                   <Input
                     type="text"
                     placeholder="Enter your address or zipcode"
@@ -206,8 +196,7 @@ const FindPage: React.FC = () => {
                       selectedOrganization?.id === organization.id &&
                         "bg-accent"
                     )}
-                    onClick={() => handleSelectOrganization(organization)}
-                  >
+                    onClick={() => handleSelectOrganization(organization)}>
                     <div className="tracking-tight">
                       <span className="font-semibold text-lg text-wrap">
                         {organization.name}
@@ -216,7 +205,7 @@ const FindPage: React.FC = () => {
                         {organization.address && (
                           <div className="flex items-center text-sm">
                             <MapPin className="h-4 w-4" />
-                            <span>{organization.address}</span>
+                            <span className="ml-1">{organization.address}</span>
                           </div>
                         )}
                         {organization.distance !== null && (
@@ -225,7 +214,7 @@ const FindPage: React.FC = () => {
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+                      <div className="flex flex-wrap mt-3 gap-y-2 gap-3">
                         {organization.serviceType.map((type) => (
                           <Chip
                             key={type}

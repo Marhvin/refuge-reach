@@ -1,6 +1,12 @@
-import { APIProvider, Map } from "@vis.gl/react-google-maps";
+import {
+  APIProvider,
+  Map,
+  MapCameraChangedEvent,
+  MapCameraProps,
+} from "@vis.gl/react-google-maps";
 import { Organization } from "shared";
 import OrganizationMarker from "./OrganizationMarker";
+import { useCallback, useEffect, useState } from "react";
 
 interface OrganizationMapProps {
   organizations: Organization[];
@@ -13,11 +19,27 @@ const OrganizationMap: React.FC<OrganizationMapProps> = ({
   setSelectedOrganization,
   mapCenter,
 }) => {
+  const [cameraProps, setCameraProps] = useState<MapCameraProps>({
+    center: mapCenter,
+    zoom: 12,
+  });
+  const handleCameraChange = useCallback((event: MapCameraChangedEvent) => {
+    setCameraProps(event.detail);
+  }, []);
+
+  useEffect(() => {
+    setCameraProps({
+      center: mapCenter,
+      zoom: cameraProps.zoom,
+    });
+  }, [cameraProps.zoom, mapCenter]);
+
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <Map
         style={{ width: "100%", height: "100%" }}
-        center={mapCenter}
+        {...cameraProps}
+        onCameraChanged={handleCameraChange}
         defaultZoom={12}
         gestureHandling={"greedy"}
         disableDefaultUI={true}
