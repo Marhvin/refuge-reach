@@ -25,6 +25,7 @@ export interface Organization {
   description?: string;
   address?: string;
   coordinates?: string;
+  isPhysicalAddress: boolean;
   hours?: string;
   phoneNumber?: string;
   servicesOfferedLanguages?: string;

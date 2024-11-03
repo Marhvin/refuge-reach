@@ -14,6 +14,7 @@ CREATE TABLE "Organization" (
     "description" TEXT,
     "address" TEXT,
     "coordinates" TEXT,
+    "isPhysicalAddress" BOOLEAN NOT NULL DEFAULT true,
     "hours" TEXT,
     "phoneNumber" TEXT,
     "servicesOfferedLanguages" TEXT,

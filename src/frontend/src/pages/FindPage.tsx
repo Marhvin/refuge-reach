@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useGetAllOrganizations } from "../hooks/organizations.hooks";
 
-import { MapPin, Phone, Clock, ExternalLink } from "lucide-react";
+import { MapPin, Phone, Clock, ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Button } from "../components/ui/button";
 import {
@@ -14,6 +14,7 @@ import {
 } from "../components/ui/card";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Organization } from "shared";
+import OrganizationMap from "../components/OrganizationMap";
 
 const FindPage: React.FC = () => {
   const [selectedOrganization, setSelectedOrganization] =
@@ -25,10 +26,6 @@ const FindPage: React.FC = () => {
     error,
   } = useGetAllOrganizations();
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   if (isError || error) {
     return <div>Error: {error.message}</div>;
   }
@@ -37,6 +34,8 @@ const FindPage: React.FC = () => {
     <div className="flex border h-screen rounded-lg overflow-hidden">
       <nav className="w-96 bg-background border-r">
         <ScrollArea className="h-full">
+          {isLoading && <Loader2 />}
+
           {organizations &&
             organizations.map((organization) => (
               <Button
@@ -65,13 +64,12 @@ const FindPage: React.FC = () => {
         </ScrollArea>
       </nav>
       <main className="flex-1 flex flex-col">
-        <div className="flex-1 bg-muted p-6">
-          {/* Google Maps placeholder */}
-          <div className="w-full h-full bg-gray-200 flex items-center justify-center rounded-lg">
-            <span className="text-gray-500 text-xl">
-              Google Maps would be displayed here
-            </span>
-          </div>
+        <div className="flex-1">
+          {organizations ? (
+            <OrganizationMap organizations={organizations} />
+          ) : (
+            <Loader2 />
+          )}
         </div>
         <div className="h-80 p-6 bg-background overflow-auto">
           {selectedOrganization ? (

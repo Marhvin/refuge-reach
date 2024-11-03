@@ -17,6 +17,7 @@ export const organizationTransformer = (
     description: organization.description,
     address: organization.address,
     coordinates: organization.coordinates,
+    isPhysicalAddress: organization.isPhysicalAddress,
     hours: organization.hours,
     phoneNumber: organization.phoneNumber,
     servicesOfferedLanguages: organization.servicesOfferedLanguages,
