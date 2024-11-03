@@ -17,7 +17,7 @@ const OrganizationMap: React.FC<OrganizationMapProps> = ({
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <Map
         style={{ width: "100%", height: "100%" }}
-        defaultCenter={mapCenter}
+        center={mapCenter}
         defaultZoom={12}
         gestureHandling={"greedy"}
         disableDefaultUI={true}

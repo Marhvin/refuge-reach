@@ -96,8 +96,7 @@ const FindPage: React.FC = () => {
                           ? [...prev, type]
                           : prev.filter((t) => t !== type)
                       );
-                    }}
-                  >
+                    }}>
                     {type}
                   </DropdownMenuCheckboxItem>
                 ))}
@@ -107,43 +106,46 @@ const FindPage: React.FC = () => {
           <ScrollArea className="h-full">
             {isLoading && <Loader2 />}
 
-            {filteredOrganizations &&
-              filteredOrganizations.map((organization) => (
-                <Button
-                  key={organization.id}
-                  variant="ghost"
-                  className={cn(
-                    "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
-                    selectedOrganization?.id === organization.id && "bg-accent"
-                  )}
-                  onClick={() => setSelectedOrganization(organization)}
-                >
-                  <div className="tracking-tight">
-                    <span className="font-semibold text-lg text-wrap">
-                      {organization.name}
-                    </span>
-                    <div className="mt-2">
-                      {organization.address && (
-                        <div className="flex items-center text-sm">
-                          <MapPin className="h-4 w-4" />
-                          <span>{organization.address}</span>
-                        </div>
-                      )}
+            <div className="mb-28">
+              {filteredOrganizations &&
+                filteredOrganizations.map((organization) => (
+                  <Button
+                    key={organization.id}
+                    variant="ghost"
+                    className={cn(
+                      "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
+                      selectedOrganization?.id === organization.id &&
+                        "bg-accent"
+                    )}
+                    onClick={() => handleSelectOrganization(organization)}>
+                    <div className="tracking-tight">
+                      <span className="font-semibold text-lg text-wrap">
+                        {organization.name}
+                      </span>
+                      <div className="mt-2">
+                        {organization.address && (
+                          <div className="flex items-center text-sm">
+                            <MapPin className="h-4 w-4" />
+                            <span>{organization.address}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap mt-3 space-x-2 gap-y-2">
+                        {organization.serviceType.map((type) => (
+                          <Chip
+                            key={type}
+                            label={type}
+                            colorClass={
+                              serviceTypeColors[type] ||
+                              "bg-gray-300 text-black"
+                            }
+                          />
+                        ))}
+                      </div>
                     </div>
-                    <div className="flex flex-wrap mt-3 gap-3 gap-y-2">
-                      {organization.serviceType.map((type) => (
-                        <Chip
-                          key={type}
-                          label={type}
-                          colorClass={
-                            serviceTypeColors[type] || "bg-gray-300 text-black"
-                          }
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </Button>
-              ))}
+                  </Button>
+                ))}
+            </div>
           </ScrollArea>
         </nav>
         <main className="flex-1 flex flex-col">
