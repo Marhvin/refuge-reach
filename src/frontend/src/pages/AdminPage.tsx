@@ -8,29 +8,11 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Organization } from "shared";
-
-// Adjusted imports
 import { Checkbox } from "../components/ui/checkbox";
 import { Label } from "../components/ui/label";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "../components/ui/select";
-
-import {
-  Dialog,
-  DialogTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogFooter,
-  DialogTitle,
-} from "../components/ui/dialog";
 import { Textarea } from "../components/ui/textarea";
 import { useForm } from "react-hook-form";
-// Enums from Prisma schema
+
 const organizationServiceTypes = [
   "EDUCATION",
   "LEGAL",
@@ -65,10 +47,6 @@ const AdminPage: React.FC = () => {
   const filteredOrganizations = organizations?.filter((organization) =>
     organization.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
-  if (isError || error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   // Form handling
   const {
@@ -119,6 +97,10 @@ const AdminPage: React.FC = () => {
 
   const serviceType = watch("serviceType") || [];
   const extraFilters = watch("extraFilters") || [];
+
+  if (isError || error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div>
