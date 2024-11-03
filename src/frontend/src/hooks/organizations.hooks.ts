@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Organization } from "shared";
+import { API_URL } from "../api";
 
 const fetchOrganizations = async (): Promise<Organization[]> => {
-  const response = await axios.get("http://localhost:5767/organizations");
+  const response = await axios.get(`${API_URL}/organizations`);
   return response.data;
 };
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { User } from "../../../shared";
 import { Navbar } from "../components/Navbar";
 
 const googleSsoParams = {
@@ -31,8 +30,13 @@ const Login: React.FC = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data && typeof data === "object" && "id" in data)
-          window.location.href = "/user";
+        if (
+          data &&
+          typeof data === "object" &&
+          "role" in data &&
+          data.role === "ADMIN"
+        )
+          window.location.href = "/admin";
       })
       .catch(() => {});
   }, []);

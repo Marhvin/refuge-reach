@@ -17,6 +17,7 @@ import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
 import { useForm } from "react-hook-form";
 import { enumToList } from "../transformers/organization.transformers";
+import { useAuthenticatedResource } from "../hooks/useAuthenticatedResource";
 
 const organizationServiceTypes = enumToList(OrganizationServiceType);
 const organizationTags = enumToList(OrganizationTags);
@@ -26,6 +27,8 @@ const AdminPage: React.FC = () => {
     useState<Organization | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+
+  useAuthenticatedResource();
 
   const {
     data: organizations,
