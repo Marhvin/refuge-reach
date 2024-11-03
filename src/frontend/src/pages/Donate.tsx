@@ -20,7 +20,9 @@ export default function Donate() {
                   Donate today for a <u>better</u> tomorrow.
                 </p>
                 <Button className="text-lg bg-yellow-400 text-blue-800 font-semibold hover:bg-yellow-500 transition-colors px-5 py-5 -mt-16 rounded-lg shadow-lg hover:shadow-xl">
-                  Donate to Urban Refuge
+                  <a href={import.meta.env.VITE_DONATION_URL}>
+                    Donate to Urban Refuge
+                  </a>
                 </Button>
               </div>
             </div>
