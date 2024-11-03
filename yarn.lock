@@ -2901,6 +2901,11 @@ react-dom@^18.3.1:
     loose-envify "^1.1.0"
     scheduler "^0.23.2"
 
+react-geocode@^1.0.0-alpha.1:
+  version "1.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/react-geocode/-/react-geocode-1.0.0-alpha.1.tgz#d0d3f63e8220a1feb116e719f4d9c32ea4bbedc4"
+  integrity sha512-MCzPh2uVabBHUYv/nrkEfkiAdRsVgcgyKKMEKFoB9il/zVltCjy3k81TGRIIxE246hmbZgIJeV5afIJ739EBhA==
+
 react-hook-form@^7.53.1:
   version "7.53.1"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.53.1.tgz#3f2cd1ed2b3af99416a4ac674da2d526625add67"

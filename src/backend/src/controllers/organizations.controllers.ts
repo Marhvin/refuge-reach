@@ -21,6 +21,7 @@ export default class OrganizationsController {
     next: NextFunction
   ) {
     try {
+      const { idToken } = req.cookies;
       const {
         name,
         serviceType,
@@ -35,16 +36,17 @@ export default class OrganizationsController {
       } = req.body;
 
       const organization = await OrganizationsService.createOrganization(
+        idToken,
         name,
         serviceType,
-        extraFilters,
+        extraFilters || null,
         isPhysicalAddress,
-        website,
-        description,
-        address,
-        hours,
-        phoneNumber,
-        servicesOfferedLanguages
+        website || null,
+        description || null,
+        address || null,
+        hours || null,
+        phoneNumber || null,
+        servicesOfferedLanguages || null
       );
 
       res.status(201).json(organization);

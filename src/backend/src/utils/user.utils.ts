@@ -6,6 +6,10 @@ import OAUTH2_CLIENT, { OAUTH_CLIENT_ID } from "./oauth_client";
 import prisma from "../prisma/prisma";
 import { userQueryArgs } from "../prisma-query-args/user.query-args";
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+
+export const isAdmin = (email: string) => email === ADMIN_EMAIL;
+
 const COOKIE_SETTINGS = JSON.parse(process.env.COOKIE_SETTINGS || null) || {
   httpOnly: true,
   secure: false,

@@ -17,7 +17,8 @@
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "express": "^4.21.1",
-    "google-auth-library": "^9.14.2"
+    "google-auth-library": "^9.14.2",
+    "react-geocode": "^1.0.0-alpha.1"
   },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.7",

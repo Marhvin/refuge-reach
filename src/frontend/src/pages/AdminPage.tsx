@@ -18,6 +18,8 @@ import { Textarea } from "../components/ui/textarea";
 import { useForm, Controller } from "react-hook-form";
 import { enumToList } from "../transformers/organization.transformers";
 import { useAuthenticatedResource } from "../hooks/useAuthenticatedResource";
+import { API_URL } from "../api";
+import { useQueryClient } from "@tanstack/react-query";
 
 const organizationServiceTypes = enumToList(OrganizationServiceType);
 const organizationTags = enumToList(OrganizationTags);
@@ -27,6 +29,7 @@ const AdminPage: React.FC = () => {
     useState<Organization | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+  const queryClient = useQueryClient();
 
   useAuthenticatedResource();
 
@@ -67,11 +70,25 @@ const AdminPage: React.FC = () => {
 
   const onSubmit = (data: Organization) => {
     if (isCreating) {
-      // Handle create organization
-      console.log("Creating organization:", {
-        ...data,
-      });
-      // Call your API to create organization
+      console.log("Creating organization:", data);
+      fetch(`${API_URL}/organizations/new`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.message) throw new Error();
+
+          queryClient.invalidateQueries({ queryKey: ["organizations"] });
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("An error occurred. Please try again.");
+        });
     } else if (selectedOrganization) {
       // Handle update organization
       console.log("Updating organization:", data);
@@ -128,8 +145,7 @@ const AdminPage: React.FC = () => {
                   onClick={() => {
                     setSelectedOrganization(organization);
                     setIsCreating(false);
-                  }}
-                >
+                  }}>
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -158,8 +174,7 @@ const AdminPage: React.FC = () => {
                   onClick={() => {
                     setIsCreating(true);
                     setSelectedOrganization(null);
-                  }}
-                >
+                  }}>
                   Create New Organization
                 </Button>
               </div>
@@ -167,8 +182,7 @@ const AdminPage: React.FC = () => {
             {(selectedOrganization || isCreating) && (
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="max-w-2xl mx-auto space-y-4"
-              >
+                className="max-w-2xl mx-auto space-y-4">
                 <div>
                   <Label htmlFor="name">
                     Name<span className="text-red-500 ml-1">*</span>
@@ -328,8 +342,7 @@ const AdminPage: React.FC = () => {
                   {selectedOrganization && !isCreating && (
                     <Button
                       variant="destructive"
-                      onClick={handleDeleteOrganization}
-                    >
+                      onClick={handleDeleteOrganization}>
                       Delete
                     </Button>
                   )}
