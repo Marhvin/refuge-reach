@@ -19,7 +19,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Contact Information */}
           <div>
-            <p className="text-lg font-semibold mb-2">© 2019 URBAN REFUGE</p>
+            <p className="text-lg font-semibold mb-2">© 2024 URBAN REFUGE</p>
             <p>152 BAY STATE ROAD</p>
             <p>BOSTON, MA 02215</p>
             <a
@@ -34,7 +34,7 @@ export function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Action</h3>
             <a href="/donate" className="text-white hover:underline block">
-              DONATE
+              Donate
             </a>
           </div>
 
