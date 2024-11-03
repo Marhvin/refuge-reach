@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+import LazyLoad from "react-lazy-load";
 
 export default function Home() {
   const [heroLoaded, setHeroLoaded] = useState(false);
@@ -168,7 +169,18 @@ export default function Home() {
           />
         </div>
       </section>
-
+      <div className="flex flex-row justify-center">
+        <LazyLoad className="w-2/3">
+          <video
+            className="w-full h-auto rounded-lg shadow-md mb-5"
+            controls
+            poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+          >
+            <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </LazyLoad>
+      </div>
       <Footer />
     </main>
   );
