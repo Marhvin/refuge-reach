@@ -45,7 +45,7 @@ const FindPage: React.FC = () => {
   return (
     <div>
       <Navbar></Navbar>
-      <div className="flex border h-screen rounded-lg overflow-hidden">
+      <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
         <nav className="w-96 bg-background border-r">
           <ScrollArea className="h-full">
             {isLoading && <Loader2 />}
