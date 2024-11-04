@@ -118,13 +118,22 @@ const AdminPage: React.FC = () => {
       <Navbar />
       <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
         <nav className="w-96 bg-background border-r">
-          <div className="p-4">
+          <div className="flex items-center space-x-4 p-4">
             <Input
               type="text"
               placeholder="Search organizations"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
+            <Button
+              variant="default"
+              onClick={() => {
+                setIsCreating(true);
+                setSelectedOrganization(null);
+              }}
+            >
+              Create New
+            </Button>
           </div>
           <ScrollArea className="h-full">
             {isLoading && <Loader2 className="m-auto" />}
@@ -140,7 +149,8 @@ const AdminPage: React.FC = () => {
                   onClick={() => {
                     setSelectedOrganization(organization);
                     setIsCreating(false);
-                  }}>
+                  }}
+                >
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -169,7 +179,8 @@ const AdminPage: React.FC = () => {
                   onClick={() => {
                     setIsCreating(true);
                     setSelectedOrganization(null);
-                  }}>
+                  }}
+                >
                   Create New Organization
                 </Button>
               </div>
@@ -177,7 +188,8 @@ const AdminPage: React.FC = () => {
             {(selectedOrganization || isCreating) && (
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="max-w-2xl mx-auto space-y-4">
+                className="max-w-2xl mx-auto space-y-4"
+              >
                 <div>
                   <Label htmlFor="name">
                     Name<span className="text-red-500 ml-1">*</span>
@@ -338,7 +350,8 @@ const AdminPage: React.FC = () => {
                     <Button
                       variant="destructive"
                       onClick={handleDeleteOrganization}
-                      type="button">
+                      type="button"
+                    >
                       Delete
                     </Button>
                   )}
