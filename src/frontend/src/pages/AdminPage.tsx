@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useGetAllOrganizations } from "../hooks/organizations.hooks";
+import {
+  useCreateOrganization,
+  useEditOrganization,
+  useGetAllOrganizations,
+} from "../hooks/organizations.hooks";
 import { Navbar } from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { Button } from "../components/ui/button";
@@ -18,8 +22,6 @@ import { Textarea } from "../components/ui/textarea";
 import { useForm, Controller } from "react-hook-form";
 import { enumToList } from "../transformers/organization.transformers";
 import { useAuthenticatedResource } from "../hooks/useAuthenticatedResource";
-import { API_URL } from "../api";
-import { useQueryClient } from "@tanstack/react-query";
 
 const organizationServiceTypes = enumToList(OrganizationServiceType);
 const organizationTags = enumToList(OrganizationTags);
@@ -29,7 +31,6 @@ const AdminPage: React.FC = () => {
     useState<Organization | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreating, setIsCreating] = useState(false);
-  const queryClient = useQueryClient();
 
   useAuthenticatedResource();
 
@@ -39,6 +40,8 @@ const AdminPage: React.FC = () => {
     isError,
     error,
   } = useGetAllOrganizations();
+  const { mutateAsync: createOrganization } = useCreateOrganization();
+  const { mutateAsync: editOrganization } = useEditOrganization();
 
   const filteredOrganizations = organizations?.filter((organization) =>
     organization.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -68,45 +71,19 @@ const AdminPage: React.FC = () => {
     }
   }, [selectedOrganization, reset]);
 
-  const onSubmit = (data: Organization) => {
+  const onSubmit = async (data: Organization) => {
     if (isCreating) {
-      fetch(`${API_URL}/organizations/new`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message) throw new Error();
-
-          queryClient.invalidateQueries({ queryKey: ["organizations"] });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("An error occurred. Please try again.");
-        });
+      await createOrganization(data);
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //     alert("An error occurred. Please try again.");
+      //   });
     } else if (selectedOrganization) {
-      fetch(`${API_URL}/organizations/${selectedOrganization.id}/edit`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(data),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message) throw new Error();
-
-          queryClient.invalidateQueries({ queryKey: ["organizations"] });
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          alert("An error occurred. Please try again.");
-        });
+      await editOrganization(data);
+      //   .catch((error) => {
+      //     console.error("Error:", error);
+      //     alert("An error occurred. Please try again.");
+      //   });
     }
     setSelectedOrganization(null);
     setIsCreating(false);

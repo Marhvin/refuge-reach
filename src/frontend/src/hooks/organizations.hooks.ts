@@ -1,13 +1,40 @@
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  createOrganization,
+  editOrganization,
+  getAllOrganizations,
+} from "../api/organizations.api";
 import { Organization } from "shared";
-import { API_URL } from "../api";
-
-const fetchOrganizations = async (): Promise<Organization[]> => {
-  const response = await axios.get(`${API_URL}/organizations`);
-  return response.data;
-};
 
 export const useGetAllOrganizations = () => {
-  return useQuery({ queryKey: ["organizations"], queryFn: fetchOrganizations });
+  return useQuery<Organization[], Error>({
+    queryKey: ["organizations"],
+    queryFn: getAllOrganizations,
+  });
+};
+
+export const useCreateOrganization = () => {
+  const queryClient = useQueryClient();
+  return useMutation<Organization, Error, Organization>({
+    mutationKey: ["organizations"],
+    mutationFn: async (organization: Organization) => {
+      return await createOrganization(organization);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+    },
+  });
+};
+
+export const useEditOrganization = () => {
+  const queryClient = useQueryClient();
+  return useMutation<Organization, Error, Organization>({
+    mutationKey: ["organizations"],
+    mutationFn: async (organization: Organization) => {
+      return await editOrganization(organization);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["organizations"] });
+    },
+  });
 };

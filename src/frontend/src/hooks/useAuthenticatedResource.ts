@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { User, UserRole } from "../../../shared";
-import { API_URL } from "../api";
+import { API_URL } from "../api/api";
 
 export const useAuthenticatedResource = () => {
   useEffect(() => {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { API_URL } from "../api";
+import { API_URL } from "../api/api";
 
 const UserAuthCallback: React.FC = () => {
   useEffect(() => {
