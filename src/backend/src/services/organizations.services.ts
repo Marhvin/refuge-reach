@@ -11,7 +11,9 @@ import { addressTransformer } from "../utils/locations.utils";
 
 export default class OrganizationsService {
   static async getOrganizations(): Promise<Organization[]> {
-    const organizations = await prisma.organization.findMany();
+    const organizations = await prisma.organization.findMany({
+      where: { dateDeleted: null },
+    });
 
     return organizations.map(organizationTransformer);
   }
@@ -29,9 +31,9 @@ export default class OrganizationsService {
     phoneNumber?: string,
     servicesOfferedLanguages?: string
   ): Promise<Organization> {
-    const owner = await getUserFromIdToken(idToken);
-    const isOwnerAdmin = isAdmin(owner.email);
-    if (!isOwnerAdmin)
+    const user = await getUserFromIdToken(idToken);
+    const isUserAdmin = isAdmin(user.email);
+    if (!isUserAdmin)
       throw new AccessDeniedException(
         403,
         "Only admins can create organizations"
@@ -39,13 +41,13 @@ export default class OrganizationsService {
 
     let addressCoordinates: string | null = null;
     if (isPhysicalAddress && isPhysicalAddress === true) {
+      // If the organization is marked as being a physical address, but doesn't have an address
       if (!address)
         throw new HttpException(400, "Physical address is required");
       else {
         try {
           addressCoordinates = await addressTransformer(address);
         } catch (error) {
-          console.log("Failed to geocode address", error);
           throw new HttpException(400, "Failed to geocode address");
         }
       }
@@ -100,12 +102,12 @@ export default class OrganizationsService {
     if (!organization)
       throw new HttpException(404, `Organization with id ${id} not found`);
 
-    const owner = await getUserFromIdToken(idToken);
-    const isOwnerAdmin = isAdmin(owner.email);
-    if (!isOwnerAdmin)
+    const user = await getUserFromIdToken(idToken);
+    const isUserAdmin = isAdmin(user.email);
+    if (!isUserAdmin)
       throw new AccessDeniedException(
         403,
-        "Only admins can create organizations"
+        "Only admins can edit organizations"
       );
 
     let addressCoordinates: string | null = null;
@@ -151,5 +153,31 @@ export default class OrganizationsService {
         `Failed to edit organization with id: ${id}`
       );
     }
+  }
+
+  static async deleteOrganization(idToken: string, id: string) {
+    const organization = await prisma.organization.findUnique({
+      where: { id },
+    });
+    if (!organization)
+      throw new HttpException(404, `Organization with id ${id} not found`);
+    if (organization.dateDeleted)
+      throw new HttpException(
+        404,
+        `Organization with id ${id} is already deleted`
+      );
+
+    const user = await getUserFromIdToken(idToken);
+    const isUserAdmin = isAdmin(user.email);
+    if (!isUserAdmin)
+      throw new AccessDeniedException(
+        403,
+        "Only admins can delete organizations"
+      );
+
+    await prisma.organization.update({
+      where: { id },
+      data: { dateDeleted: new Date(), deletedByUserId: user.id },
+    });
   }
 }

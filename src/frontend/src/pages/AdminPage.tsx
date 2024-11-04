@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   useCreateOrganization,
+  useDeleteOrganization,
   useEditOrganization,
   useGetAllOrganizations,
 } from "../hooks/organizations.hooks";
@@ -42,6 +43,7 @@ const AdminPage: React.FC = () => {
   } = useGetAllOrganizations();
   const { mutateAsync: createOrganization } = useCreateOrganization();
   const { mutateAsync: editOrganization } = useEditOrganization();
+  const { mutateAsync: deleteOrganization } = useDeleteOrganization();
 
   const filteredOrganizations = organizations?.filter((organization) =>
     organization.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -89,12 +91,14 @@ const AdminPage: React.FC = () => {
     setIsCreating(false);
   };
 
-  const handleDeleteOrganization = () => {
+  const handleDeleteOrganization = async () => {
     if (selectedOrganization) {
-      // Handle delete organization
-      console.log("Deleting organization:", selectedOrganization);
-      // Call your API to delete organization
-      setSelectedOrganization(null);
+      try {
+        await deleteOrganization(selectedOrganization);
+        setSelectedOrganization(null);
+      } catch (error) {
+        console.error("Error deleting:", error);
+      }
     }
   };
 
@@ -333,7 +337,8 @@ const AdminPage: React.FC = () => {
                   {selectedOrganization && !isCreating && (
                     <Button
                       variant="destructive"
-                      onClick={handleDeleteOrganization}>
+                      onClick={handleDeleteOrganization}
+                      type="button">
                       Delete
                     </Button>
                   )}

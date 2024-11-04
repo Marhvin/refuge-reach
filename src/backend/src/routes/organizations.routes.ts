@@ -7,5 +7,9 @@ organizationsRouter.get("/", OrganizationsController.getOrganizations);
 
 organizationsRouter.post("/new", OrganizationsController.createOrganization);
 organizationsRouter.post("/:id/edit", OrganizationsController.editOrganization);
+organizationsRouter.post(
+  "/:id/delete",
+  OrganizationsController.deleteOrganization
+);
 
 export default organizationsRouter;

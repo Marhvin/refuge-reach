@@ -96,4 +96,21 @@ export default class OrganizationsController {
       next(err);
     }
   }
+
+  static async deleteOrganization(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { idToken } = req.cookies;
+      const { id } = req.params;
+
+      await OrganizationsService.deleteOrganization(idToken, id);
+
+      res.status(201).json();
+    } catch (err: unknown) {
+      next(err);
+    }
+  }
 }

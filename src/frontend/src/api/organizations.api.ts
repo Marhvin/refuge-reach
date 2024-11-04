@@ -30,3 +30,9 @@ export const editOrganization = async (data: Organization) => {
   );
   return response.data;
 };
+
+export const deleteOrganization = async (data: Organization) => {
+  await axios.post(`${API_URL}/organizations/${data.id}/delete`, undefined, {
+    withCredentials: true,
+  });
+};

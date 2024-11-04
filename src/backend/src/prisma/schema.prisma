@@ -44,11 +44,16 @@ model Organization {
   hours                    String?
   phoneNumber              String?
   servicesOfferedLanguages String?
+  // Deleted fields
+  dateDeleted              DateTime?
+  deletedByUser            User?                     @relation(fields: [deletedByUserId], references: [id])
+  deletedByUserId          String?
 }
 
 model User {
-  id       String @id @default(uuid())
-  googleId String @unique
-  name     String
-  email    String @unique
+  id                   String         @id @default(uuid())
+  googleId             String         @unique
+  name                 String
+  email                String         @unique
+  organizationsDeleted Organization[]
 }

@@ -100,6 +100,8 @@ export const getAccessTokenAuthStatus = async (
 export const getUserFromIdToken = async (
   idToken: string
 ): Promise<Prisma.UserGetPayload<typeof userQueryArgs>> => {
+  if (!idToken) throw new AccessDeniedException(401, "No id token provided");
+
   const ticket = await OAUTH2_CLIENT.verifyIdToken({
     idToken: idToken,
     audience: OAUTH_CLIENT_ID,
