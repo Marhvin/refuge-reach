@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import Home from "../pages/Home";
 import FindPage from "../pages/FindPage";
 import Donate from "../pages/Donate";
-import AdminPage from "../pages/AdminPage.tsx";
+import AdminPage from "../pages/AdminPage/AdminPage.tsx";
 import Login from "../pages/Login";
 import UserAuthCallback from "../pages/UserAuthCallback";
 
