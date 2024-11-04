@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 import Home from "../pages/Home";
 import FindPage from "../pages/FindPage";
@@ -14,6 +15,7 @@ import AppContextQuery from "./AppContextQuery";
 const App: React.FC = () => {
   return (
     <AppContextQuery>
+      <Toaster />
       <Router>
         <Routes>
           <Route path="/" element={<Home />} />

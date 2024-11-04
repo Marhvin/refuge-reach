@@ -23,6 +23,7 @@ import { Textarea } from "../components/ui/textarea";
 import { useForm, Controller } from "react-hook-form";
 import { enumToList } from "../transformers/organization.transformers";
 import { useAuthenticatedResource } from "../hooks/useAuthenticatedResource";
+import { toastError, toastSuccess } from "../utils/toast.utils";
 
 const organizationServiceTypes = enumToList(OrganizationServiceType);
 const organizationTags = enumToList(OrganizationTags);
@@ -75,17 +76,19 @@ const AdminPage: React.FC = () => {
 
   const onSubmit = async (data: Organization) => {
     if (isCreating) {
-      await createOrganization(data);
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //     alert("An error occurred. Please try again.");
-      //   });
+      try {
+        await createOrganization(data);
+        toastSuccess("Successfully created organization", "🎉");
+      } catch {
+        toastError("An error occurred creating the organization");
+      }
     } else if (selectedOrganization) {
-      await editOrganization(data);
-      //   .catch((error) => {
-      //     console.error("Error:", error);
-      //     alert("An error occurred. Please try again.");
-      //   });
+      try {
+        await editOrganization(data);
+        toastSuccess("Successfully edited organization", "📝");
+      } catch {
+        toastError("An error occurred editing the organization");
+      }
     }
     setSelectedOrganization(null);
     setIsCreating(false);
@@ -95,9 +98,10 @@ const AdminPage: React.FC = () => {
     if (selectedOrganization) {
       try {
         await deleteOrganization(selectedOrganization);
+        toastSuccess("Successfully deleted organization", "🗑️");
         setSelectedOrganization(null);
-      } catch (error) {
-        console.error("Error deleting:", error);
+      } catch {
+        toastError("An error occurred deleting the organization");
       }
     }
   };
