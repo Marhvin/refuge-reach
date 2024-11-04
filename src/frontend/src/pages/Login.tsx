@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 
 const googleSsoParams = {
   redirect_uri: import.meta.env.VITE_GOOGLE_REDIRECT_URI,
@@ -49,8 +49,7 @@ const Login: React.FC = () => {
         <img src="/URLogo.png" className="absolute h-12 w-35 mb-[9rem]"></img>
         <button
           className="flex items-center bg-white text-gray-800 border border-gray-300 rounded-lg shadow-md p-3 hover:bg-gray-100 transition duration-200"
-          onClick={handleGoogleSSO}
-        >
+          onClick={handleGoogleSSO}>
           <img
             src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
             alt="Google Logo"

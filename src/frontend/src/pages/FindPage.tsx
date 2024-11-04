@@ -7,7 +7,7 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
 import { Footer } from "../components/Footer";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import Chip from "../components/Chip";
 import { serviceTypeColors } from "../types/organization.types";
 import { Input } from "../components/ui/input";
@@ -166,8 +166,7 @@ const FindPage: React.FC = () => {
                             ? [...prev, type]
                             : prev.filter((t) => t !== type)
                         );
-                      }}
-                    >
+                      }}>
                       {type}
                     </DropdownMenuCheckboxItem>
                   ))}
@@ -176,8 +175,7 @@ const FindPage: React.FC = () => {
               <div className="mt-4">
                 <Autocomplete
                   onLoad={onLoadAutocomplete}
-                  onPlaceChanged={onPlaceChanged}
-                >
+                  onPlaceChanged={onPlaceChanged}>
                   <Input
                     type="text"
                     placeholder="Enter your address or zipcode"
@@ -198,8 +196,7 @@ const FindPage: React.FC = () => {
                       selectedOrganization?.id === organization.id &&
                         "bg-accent"
                     )}
-                    onClick={() => handleSelectOrganization(organization)}
-                  >
+                    onClick={() => handleSelectOrganization(organization)}>
                     <div className="tracking-tight">
                       <span className="font-semibold text-lg text-wrap">
                         {organization.name}

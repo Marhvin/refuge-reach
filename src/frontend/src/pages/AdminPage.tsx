@@ -5,7 +5,7 @@ import {
   useEditOrganization,
   useGetAllOrganizations,
 } from "../hooks/organizations.hooks";
-import { Navbar } from "../components/Navbar";
+import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
