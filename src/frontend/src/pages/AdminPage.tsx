@@ -50,6 +50,19 @@ const AdminPage: React.FC = () => {
     organization.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const defaultOrganization: Organization = {
+    id: "",
+    name: "",
+    serviceType: [],
+    extraFilters: [],
+    isPhysicalAddress: false,
+    website: "",
+    description: "",
+    address: "",
+    hours: "",
+    phoneNumber: "",
+    servicesOfferedLanguages: "",
+  };
   const {
     register,
     handleSubmit,
@@ -59,9 +72,7 @@ const AdminPage: React.FC = () => {
     control,
     formState: { errors },
   } = useForm<Organization>({
-    defaultValues: {
-      serviceType: [],
-    },
+    defaultValues: defaultOrganization,
   });
 
   const isPhysicalAddress = watch("isPhysicalAddress", false);
@@ -73,6 +84,12 @@ const AdminPage: React.FC = () => {
       reset();
     }
   }, [selectedOrganization, reset]);
+
+  const handleCreateNewOrganization = () => {
+    setIsCreating(true);
+    setSelectedOrganization(null);
+    reset(defaultOrganization);
+  };
 
   const onSubmit = async (data: Organization) => {
     if (isCreating) {
@@ -129,17 +146,11 @@ const AdminPage: React.FC = () => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Button
-              variant="default"
-              onClick={() => {
-                setIsCreating(true);
-                setSelectedOrganization(null);
-              }}
-            >
+            <Button variant="default" onClick={handleCreateNewOrganization}>
               Create New
             </Button>
           </div>
-          <ScrollArea className="h-full">
+          <ScrollArea className="h-[calc(100%-4.25rem)]">
             {isLoading && <Loader2 className="m-auto" />}
             {filteredOrganizations &&
               filteredOrganizations.map((organization) => (
@@ -153,8 +164,7 @@ const AdminPage: React.FC = () => {
                   onClick={() => {
                     setSelectedOrganization(organization);
                     setIsCreating(false);
-                  }}
-                >
+                  }}>
                   <div className="tracking-tight">
                     <span className="font-semibold text-lg text-wrap">
                       {organization.name}
@@ -180,11 +190,7 @@ const AdminPage: React.FC = () => {
                 <Button
                   variant="default"
                   className="mt-4"
-                  onClick={() => {
-                    setIsCreating(true);
-                    setSelectedOrganization(null);
-                  }}
-                >
+                  onClick={handleCreateNewOrganization}>
                   Create New Organization
                 </Button>
               </div>
@@ -192,8 +198,7 @@ const AdminPage: React.FC = () => {
             {(selectedOrganization || isCreating) && (
               <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="max-w-2xl mx-auto space-y-4"
-              >
+                className="max-w-2xl mx-auto space-y-4">
                 <div>
                   <Label htmlFor="name">
                     Name<span className="text-red-500 ml-1">*</span>
@@ -205,7 +210,12 @@ const AdminPage: React.FC = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="address">Address</Label>
+                  <Label htmlFor="address">
+                    Address
+                    {isPhysicalAddress && (
+                      <span className="text-red-500 ml-1">*</span>
+                    )}
+                  </Label>
                   <Input
                     id="address"
                     {...register("address", {
@@ -354,8 +364,7 @@ const AdminPage: React.FC = () => {
                     <Button
                       variant="destructive"
                       onClick={handleDeleteOrganization}
-                      type="button"
-                    >
+                      type="button">
                       Delete
                     </Button>
                   )}

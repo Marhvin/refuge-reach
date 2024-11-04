@@ -183,7 +183,7 @@ const FindPage: React.FC = () => {
                 </Autocomplete>
               </div>
             </div>
-            <ScrollArea className="h-full">
+            <ScrollArea className="h-[calc(100%-10.5rem)]">
               {isLoading && <Loader2 />}
 
               {filteredOrganizations &&
