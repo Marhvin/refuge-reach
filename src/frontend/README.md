@@ -1,50 +1,27 @@
-# React + TypeScript + Vite
+# frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## What is this folder?
 
-Currently, two official plugins are available:
+This folder contains the frontend of this web application. It is a React app powered with Vite, written in TypeScript and styled with Tailwind CSS and some shadcn components.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Getting Started
 
-## Expanding the ESLint configuration
+### Configuring the application settings
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+You will need to setup a `.env` file at `/src/frontend/.env`. This file holds secrets and other configurations that the app needs to run. Copy and paste the following into your `.env` file, and fill in or change the information as needed.
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```env
+VITE_DONATION_URL="https://www.urbanrefuge.org/checkout/donate?donatePageId=5dc21c97c6f9485f71434028"
+VITE_GOOGLE_OAUTH_CLIENT_ID=""
+VITE_GOOGLE_MAPS_API_KEY=""
+VITE_GOOGLE_MAP_ID="8a70719044abaac4"
+VITE_GOOGLE_REDIRECT_URI="http://localhost:5173/user/auth/callback"
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Starting to develop
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+Now you can begin development! Below are some commands that you may find useful in your frontend development (note that the commands are intended to be run from the root directory of the project).
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+- `yarn install` - installs dependencies required to run the application
+- `yarn start` - runs the whole application (frontend and backend) in one command
+- `yarn frontend` - runs only the frontend

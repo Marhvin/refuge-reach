@@ -44,7 +44,7 @@ const OrganizationMap: React.FC<OrganizationMapProps> = ({
         defaultZoom={12}
         gestureHandling={"greedy"}
         disableDefaultUI={true}
-        mapId={"8a70719044abaac4"}>
+        mapId={import.meta.env.VITE_GOOGLE_MAP_ID}>
         {organizations.map((organization: Organization) => {
           if (organization.isPhysicalAddress && organization.coordinates)
             return (
