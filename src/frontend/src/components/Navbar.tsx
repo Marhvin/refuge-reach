@@ -1,4 +1,8 @@
+import { useCurrentUser } from "../hooks/user.hooks";
+
 const Navbar: React.FC = () => {
+  const { data: user, isPending, isError } = useCurrentUser();
+
   return (
     <nav className="bg-gray-50 text-blue-900 shadow-md max-h-[7rem] h-[7rem]">
       <div className="container mx-auto">
@@ -33,7 +37,13 @@ const Navbar: React.FC = () => {
               <a
                 href="/login"
                 className="border-2 border-blue-900 text-blue-900 px-4 py-1 rounded-lg hover:bg-blue-900 hover:text-white transition-colors">
-                Login
+                {isPending && !isError ? (
+                  <p className="text-white">Account</p> // Placeholder to keep button size
+                ) : user && user.email ? (
+                  "Account"
+                ) : (
+                  "Login"
+                )}
               </a>
             </div>
           </div>
