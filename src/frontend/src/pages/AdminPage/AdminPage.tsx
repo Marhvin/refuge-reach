@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   useCreateOrganization,
   useDeleteOrganization,
@@ -12,8 +12,8 @@ import { Input } from "../../components/ui/input";
 import { ScrollArea } from "../../components/ui/scroll-area";
 import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "../../lib/utils";
-import { Organization } from "shared";
-import { useAuthenticatedResource } from "../../hooks/useAuthenticatedResource";
+import { Organization, UserRole } from "shared";
+import { useCurrentUser } from "../../hooks/user.hooks";
 import { toastError, toastSuccess } from "../../utils/toast.utils";
 import OrganizationForm from "./OrganizationForm";
 
@@ -24,7 +24,22 @@ const AdminPage: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [shouldReset, setShouldReset] = useState(false);
 
-  useAuthenticatedResource();
+  const {
+    data: user,
+    isLoading: isUserLoading,
+    isError: isUserError,
+    error: userError,
+  } = useCurrentUser();
+
+  useEffect(() => {
+    if (isUserError || userError) {
+      toastError("You must be logged in to view this page!");
+      window.location.href = "/login";
+    } else if (!isUserLoading && (!user || user.role !== UserRole.ADMIN)) {
+      toastError("You must be an admin to view this page!");
+      window.location.href = "/find";
+    }
+  }, [isUserLoading, isUserError, userError, user]);
 
   const {
     data: organizations,
@@ -118,8 +133,10 @@ const AdminPage: React.FC = () => {
             </Button>
           </div>
           <ScrollArea className="h-[calc(100%-4.25rem)]">
-            {isLoading && <Loader2 className="m-auto" />}
-            {filteredOrganizations &&
+            {(isLoading || isUserLoading) && <Loader2 className="m-auto" />}
+            {user &&
+              user.role === UserRole.ADMIN &&
+              filteredOrganizations &&
               filteredOrganizations.map((organization) => (
                 <Button
                   key={organization.id}

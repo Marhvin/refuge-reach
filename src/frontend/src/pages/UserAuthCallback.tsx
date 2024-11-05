@@ -1,41 +1,20 @@
 import React, { useEffect } from "react";
-import { API_URL } from "../api/api";
+import { useLoginUser } from "../hooks/user.hooks";
 
 const UserAuthCallback: React.FC = () => {
+  const { mutateAsync: loginUser, isPending, isError, error } = useLoginUser();
+
+  const searchParams = new URLSearchParams(window.location.search);
+  const code = searchParams.get("code");
+  const scope = searchParams.get("scope");
+
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get("code");
-    const scope = searchParams.get("scope");
+    loginUser({ code, scope });
+  }, [loginUser, code, scope]);
 
-    if (code) {
-      const url = `${API_URL}/user/login/code`;
+  if (isPending) return <>Redirecting...</>;
 
-      const bodyData = JSON.stringify({
-        code: code,
-        scope: scope,
-      });
-
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: bodyData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.success) {
-            window.location.href = "/find";
-          }
-        })
-        .catch((error) => {
-          console.error("Error during login:", error);
-        });
-    }
-  }, []);
-
-  return <>Redirecting...</>;
+  if (isError || error) return <>Encountered an error during login</>;
 };
 
 export default UserAuthCallback;

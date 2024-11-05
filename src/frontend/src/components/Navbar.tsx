@@ -1,6 +1,6 @@
 const Navbar: React.FC = () => {
   return (
-    <nav className="bg-gray-50 text-blue-900 shadow-md">
+    <nav className="bg-gray-50 text-blue-900 shadow-md max-h-[7rem] h-[7rem]">
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-28">
           <div className="flex items-center space-x-4">
