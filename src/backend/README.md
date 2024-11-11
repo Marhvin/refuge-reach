@@ -17,7 +17,7 @@ To start, you will need to have a few applications / services downloaded for dev
 
 ### Configuring the application settings
 
-You will need to setup a `.env` file at `/src/backend/.env`. This file holds secrets and other configurations that the app needs to run. Copy and paste the following into your `.env` file, and fill in or change information (e.g. secrets and keys, admin email).
+You will need to setup a `.env` file at `/src/backend/.env`. This file holds secrets and other configurations that the app needs to run. Copy and paste the following into your `.env` file, and fill in or change information (e.g. secrets and keys, admin email). The ADMIN_EMAIL can be a single email (no commas), or a comma separated list of emails (no spaces, see below).
 
 ```env
 # Secrets and keys
@@ -25,7 +25,7 @@ GOOGLE_OAUTH_CLIENT_ID=""
 GOOGLE_OAUTH_CLIENT_SECRET=""
 GOOGLE_MAPS_API_KEY=""
 # Configurations
-ADMIN_EMAIL="youremail@gmail.com"
+ADMIN_EMAIL="admin1@gmail.com,admin2@gmail.com"
 CORS_OPTIONS='{"origin":["http://localhost:5173", "http://localhost:4173"],"credentials":true,"methods":"GET,POST,OPTIONS"}'
 REDIRECT_URI="http://localhost:5173/user/auth/callback"
 PORT=5767
@@ -35,6 +35,7 @@ DATABASE_URL="postgresql://postgres:docker@localhost:5432/mydb?schema=public"
 ```
 
 Now, before we start coding, we will need to setup the database. Run the following commands in your terminal. Note that you should be in the root directory of the project, and not in the `/src/backend/` folder when you run these commands.
+
 1. `yarn install`
 2. `docker run --name urban-refuge -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres`
 3. `docker exec -ti urban-refuge psql -U postgres -c "CREATE DATABASE urban_refuge;"`

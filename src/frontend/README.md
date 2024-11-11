@@ -16,6 +16,7 @@ VITE_GOOGLE_OAUTH_CLIENT_ID=""
 VITE_GOOGLE_MAPS_API_KEY=""
 VITE_GOOGLE_MAP_ID="8a70719044abaac4"
 VITE_GOOGLE_REDIRECT_URI="http://localhost:5173/user/auth/callback"
+VITE_BACKEND_URL="http://localhost:5767"
 ```
 
 ### Starting to develop
