@@ -1,0 +1,10 @@
+services:
+  urban_refuge:
+    container_name: urban_refuge
+    env_file: ".env"
+    build:
+      context: ../../
+      dockerfile: ./src/backend/Dockerfile
+    ports:
+      - "5767:5767"
+    restart: unless-stopped
