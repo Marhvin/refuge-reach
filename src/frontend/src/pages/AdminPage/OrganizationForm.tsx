@@ -1,10 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "../../components/ui/button";
 import { Input } from "../../components/ui/input";
 import { Checkbox } from "../../components/ui/checkbox";
 import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../../components/ui/dialog";
 import {
   Organization,
   OrganizationServiceType,
@@ -20,7 +29,7 @@ interface OrganizationFormProps {
   isCreating: boolean;
   selectedOrganization: Organization | null;
   onSubmit: (data: Organization) => Promise<void>;
-  onDelete?: () => Promise<void>;
+  onDelete: () => Promise<void>;
   onCancel: () => void;
   shouldReset: boolean;
   setShouldReset: (value: boolean) => void;
@@ -36,6 +45,8 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
   shouldReset,
   setShouldReset,
 }) => {
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -66,10 +77,20 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
     }
   }, [defaultValues, reset, setShouldReset, shouldReset]);
 
+  const handleDelete = () => {
+    setIsDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = () => {
+    onDelete();
+    setIsDeleteDialogOpen(false);
+  };
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="max-w-2xl mx-auto space-y-4">
+      className="max-w-2xl mx-auto space-y-4"
+    >
       <h1 className="text-2xl font-bold">
         {isCreating ? "Create a new Organization" : "Edit an Organization"}
       </h1>
@@ -218,9 +239,42 @@ const OrganizationForm: React.FC<OrganizationFormProps> = ({
 
       <div className="flex justify-end space-x-4 mt-6">
         {selectedOrganization && !isCreating && (
-          <Button variant="destructive" onClick={onDelete} type="button">
-            Delete
-          </Button>
+          <Dialog
+            open={isDeleteDialogOpen}
+            onOpenChange={setIsDeleteDialogOpen}
+          >
+            <DialogTrigger asChild>
+              <Button
+                variant="destructive"
+                onClick={handleDelete}
+                type="button"
+              >
+                Delete
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>
+                  Are you sure you want to delete this organization?
+                </DialogTitle>
+                <DialogDescription>
+                  This action cannot be undone. This will permanently delete the
+                  organization and remove all of its data from our servers.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button
+                  variant="secondary"
+                  onClick={() => setIsDeleteDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button variant="destructive" onClick={confirmDelete}>
+                  Delete
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
         )}
         <Button variant="secondary" onClick={onCancel}>
           Cancel
