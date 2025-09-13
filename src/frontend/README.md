@@ -11,7 +11,7 @@ This folder contains the frontend of this web application. It is a React app pow
 You will need to setup a `.env` file at `/src/frontend/.env`. This file holds secrets and other configurations that the app needs to run. Copy and paste the following into your `.env` file, and fill in or change the information as needed.
 
 ```env
-VITE_DONATION_URL="https://www.urbanrefuge.org/checkout/donate?donatePageId=5dc21c97c6f9485f71434028"
+VITE_DONATION_URL="https://google.com"
 VITE_GOOGLE_OAUTH_CLIENT_ID=""
 VITE_GOOGLE_MAPS_API_KEY=""
 VITE_GOOGLE_MAP_ID="8a70719044abaac4"
