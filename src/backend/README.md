@@ -10,9 +10,9 @@ To start, you will need to have a few applications / services downloaded for dev
 
 ### Requirements
 
-- Node.js 20.x or higher - [download](https://nodejs.org/en/download)
-- Yarn - install by running `npm install -g yarn` in your terminal (after installing Node) [Note: you may need to run `sudo npm install -g yarn` instead on Unix-like systems like MacOS and Linux if you are getting permission errors]
-- Docker Desktop - [download](https://www.docker.com/products/docker-desktop/)
+- Node.js 20.x or higher
+- Yarn
+- Docker Desktop
 - Google Cloud Platform Application with OAuth setup (client credentials) and an API key with Google Maps services - step 1 in [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) and follow steps to enable APIs in [maps](https://developers.google.com/maps/documentation/javascript/cloud-setup)
 
 ### Configuring the application settings
@@ -34,7 +34,7 @@ COOKIE_SETTINGS='{"httpOnly":true,"secure":false,"sameSite":"lax","path":"/"}'
 DATABASE_URL="postgresql://postgres:docker@localhost:5432/mydb?schema=public"
 ```
 
-Now, before we start coding, we will need to setup the database. Run the following commands in your terminal. Note that you should be in the root directory of the project, and not in the `/src/backend/` folder when you run these commands.
+Now, before we start coding, we will need to setup the database. This only has to be done once. Run the following commands in your terminal. Note that you should be in the root directory of the project, and not in the `/src/backend/` folder when you run these commands.
 
 1. `yarn install`
 2. `docker run --name urban-refuge -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres`

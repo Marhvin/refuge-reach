@@ -6,13 +6,13 @@ This repository contains the source code for the Urban Refuge website. This repo
 
 ## I want to contribute. How do I start?
 
-Before getting started, you will need to download a few applications / services required to run the website on your computer.
+Before getting started, you will need to download a few applications / services required to run the website on your computer. You can find the onboarding at [onboarding.md](https://github.com/Marhvin/refuge-reach/blob/main/onboarding.md), which contains detailed steps from the installation of all dependencies to getting the website running locally.
 
 ### Requirements
 
-- Node.js 20.x or higher - [download](https://nodejs.org/en/download)
-- Yarn - install by running `npm install -g yarn` in your terminal (after installing Node) [Note: you may need to run `sudo npm install -g yarn` instead on Unix-like systems like MacOS and Linux if you are getting permission errors]
-- Docker Desktop - [download](https://www.docker.com/products/docker-desktop/)
+- Node.js 20.x or higher
+- Yarn
+- Docker Desktop
 - Google Cloud Platform Application with OAuth setup (client credentials) and an API key with Google Maps services - step 1 in [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2) and follow steps to enable APIs in [maps](https://developers.google.com/maps/documentation/javascript/cloud-setup)
 
 ### Further configuration
