@@ -6,6 +6,7 @@ import Home from "../pages/Home";
 import FindPage from "../pages/FindPage";
 import Donate from "../pages/Donate";
 import Maps from "../pages/Maps";
+import InTheNews from "../pages/InTheNews";
 import AdminPage from "../pages/AdminPage/AdminPage.tsx";
 import Login from "../pages/Login";
 import UserAuthCallback from "../pages/UserAuthCallback";
@@ -25,6 +26,7 @@ const App: React.FC = () => {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/donate" element={<Donate />} />
           <Route path="/maps" element={<Maps />} />
+          <Route path="/news" element={<InTheNews />} />
           <Route path="/user/auth/callback" element={<UserAuthCallback />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

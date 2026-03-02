@@ -1,4 +1,4 @@
-import { ChevronDown, MapPin } from "lucide-react";
+import { ChevronDown, MapPin, Newspaper } from "lucide-react";
 import { useCurrentUser } from "../hooks/user.hooks";
 import {
   DropdownMenu,
@@ -47,6 +47,25 @@ const Navbar: React.FC = () => {
                   >
                     <MapPin className="h-4 w-4 text-amber-500" />
                     Our Maps
+                  </a>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* Media dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-1 text-lg hover:text-blue-700 transition-colors outline-none">
+                Media
+                <ChevronDown className="h-4 w-4 opacity-70" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-44">
+                <DropdownMenuItem asChild>
+                  <a
+                    href="/news"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <Newspaper className="h-4 w-4 text-amber-500" />
+                    In the News
                   </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
