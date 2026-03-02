@@ -1,20 +1,13 @@
 import { useState, useEffect } from "react";
 import { Button } from "../components/ui/button";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import {
   ArrowRight,
   Heart,
   Users,
   MapPin,
-  Handshake,
   Target,
   EyeOff,
+  Check,
 } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
@@ -29,11 +22,12 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
+    <main className="bg-white">
       <Navbar />
+
       {/* Hero Section */}
       <section
-        className={`relative text-center py-36 transform transition-all duration-1000 ease-in-out ${
+        className={`relative text-center py-48 transition-all duration-1000 ease-in-out ${
           heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
         }`}
         style={{
@@ -42,18 +36,24 @@ export default function Home() {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-        }}>
-        <div className="absolute inset-0 bg-blue-800 opacity-30"></div>
-        <div className="relative z-10">
-          <h1 className="text-5xl font-bold mb-4 text-white animate-fade-in-down">
-            Welcome to Urban Refuge
+        }}
+      >
+        <div className="absolute inset-0 bg-blue-900 opacity-55" />
+        <div className="relative z-10 max-w-3xl mx-auto px-6">
+          <p className="text-xs tracking-widest uppercase text-amber-400 font-semibold mb-4">
+            Putting Aid on the Map
+          </p>
+          <h1 className="text-6xl font-bold mb-6 text-white leading-tight">
+            Urban Refuge
           </h1>
-          <p className="text-2xl mb-6 text-white animate-fade-in-down delay-100">
-            Making aid accessible for refugees.
+          <p className="text-xl mb-10 text-white/90 max-w-xl mx-auto leading-relaxed">
+            Connecting displaced people with vital resources in their
+            communities.
           </p>
           <Button
             size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white animate-fade-in-down delay-200">
+            className="bg-amber-500 hover:bg-amber-600 text-white px-8"
+          >
             <a href="/find" className="flex items-center">
               Find Resources <ArrowRight className="ml-2 h-4 w-4" />
             </a>
@@ -62,81 +62,72 @@ export default function Home() {
       </section>
 
       {/* What We Do Section */}
-      <section className="py-12">
-        <div className="flex items-center justify-center mb-8 animate-fade-in-up">
-          <h2 className="text-4xl font-bold text-blue-800">What We Do</h2>
-          <Handshake className="ml-3 h-8 w-8 text-amber-500" />
-        </div>
-        <div className="grid md:grid-cols-3 gap-8 mb-12 px-16">
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-100">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <MapPin className="mr-2 h-7 w-7 text-red-500" />
+      <section className="bg-slate-50 py-20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-14">
+            <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+              Our Services
+            </p>
+            <h2 className="text-4xl font-bold text-blue-800">What We Do</h2>
+          </div>
+          <div className="grid md:grid-cols-3 gap-10">
+            <div className="flex flex-col items-center justify-center aspect-square rounded-full bg-white shadow-md hover:shadow-lg transition-shadow p-12 text-center">
+              <div className="bg-red-50 p-4 rounded-full mb-4">
+                <MapPin className="h-8 w-8 text-red-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-blue-800">
                 Locate Aid
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                Our platform provides refugees with access to nearby resources,
-                including food banks, shelters, and medical clinics. With our
-                user-friendly tools, locating assistance in urban areas becomes
-                straightforward and efficient.
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-200">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <Users className="mr-2 h-7 w-7 text-green-500" />
+              </h3>
+              <p className="text-sm text-blue-800/75 leading-relaxed">
+                Our platform provides displaced people with access to nearby
+                resources, including food banks, shelters, and medical clinics.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center aspect-square rounded-full bg-white shadow-md hover:shadow-lg transition-shadow p-12 text-center">
+              <div className="bg-green-50 p-4 rounded-full mb-4">
+                <Users className="h-8 w-8 text-green-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-blue-800">
                 Community Support
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                We help refugees integrate into local communities by connecting
-                them to support networks that foster inclusivity. Whether
-                through social events, language classes, or group activities,
-                Urban Refuge works to create a sense of belonging.
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-300">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <Heart className="mr-2 h-7 w-7 text-blue-500" />
+              </h3>
+              <p className="text-sm text-blue-800/75 leading-relaxed">
+                We help displaced individuals integrate into local communities
+                by connecting them to support networks that foster inclusivity.
+              </p>
+            </div>
+            <div className="flex flex-col items-center justify-center aspect-square rounded-full bg-white shadow-md hover:shadow-lg transition-shadow p-12 text-center">
+              <div className="bg-blue-50 p-4 rounded-full mb-4">
+                <Heart className="h-8 w-8 text-blue-500" />
+              </div>
+              <h3 className="text-xl font-bold mb-2 text-blue-800">
                 Contribute
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                Contributing to the cause is simple. We provide avenues for
-                individuals and organizations to assist refugees by adding new
-                resources or updating existing information. You can help by
-                volunteering, donating, or sharing your expertise to create more
-                comprehensive support.
-              </CardDescription>
-            </CardContent>
-          </Card>
+              </h3>
+              <p className="text-sm text-blue-800/75 leading-relaxed">
+                We provide ways for individuals and organizations to assist
+                displaced populations by adding resources or volunteering.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Our Mission and Who We Are Sections */}
-      <section className="bg-white py-12">
-        {/* Our Mission Section */}
-        <div className="grid md:grid-cols-2 gap-12 items-center px-12">
-          {/* Image for Our Mission Section */}
+      {/* Our Mission Section */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
           <img
             src="/stock.jpg"
             alt="Stock Image"
-            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
+            className="w-full h-72 object-cover rounded-xl shadow-lg"
           />
-          {/* Our Mission Text */}
-          <div className="animate-fade-in-right">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
+          <div>
+            <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+              Our Purpose
+            </p>
+            <h2 className="text-3xl font-bold mb-6 text-blue-800 flex items-center gap-3">
               Our Mission
-              <Target className="ml-3 h-8 w-8 text-amber-500" />
+              <Target className="h-7 w-7 text-amber-500 shrink-0" />
             </h2>
-            <p className="text-lg">
+            <p className="text-lg text-blue-800/80 leading-relaxed">
               Urban Refuge is dedicated to providing up-to-date information on
               aid resources for refugees in urban areas. Our platform allows
               users to easily locate and access vital services while also
@@ -144,28 +135,31 @@ export default function Home() {
             </p>
           </div>
         </div>
+      </section>
 
-        {/* Who We Are Section */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mt-16 px-12">
-          {/* Who We Are Text */}
-          <div className="animate-fade-in-left">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
+      {/* Who We Are Section */}
+      <section className="bg-slate-50 py-20">
+        <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+              Our Team
+            </p>
+            <h2 className="text-3xl font-bold mb-6 text-blue-800 flex items-center gap-3">
               Who We Are
-              <Users className="ml-3 h-8 w-8 text-amber-500" />
+              <Users className="h-7 w-7 text-amber-500 shrink-0" />
             </h2>
-            <p className="text-lg">
+            <p className="text-lg text-blue-800/80 leading-relaxed">
               Urban Refuge is a dedicated team committed to making aid
               accessible for refugees. Our mission is to bridge the gap between
               refugees and the resources they need to thrive in urban
               environments.
             </p>
           </div>
-          {/* Video */}
-          <LazyLoad className="animate-fade-in-right">
+          <LazyLoad>
             <video
-              className="w-full h-auto rounded-lg shadow-md mb-5"
+              className="w-full h-auto rounded-xl shadow-lg"
               controls
-              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are"
             >
               <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
               Your browser does not support the video tag.
@@ -174,49 +168,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Commitment to Privacy Section */}
-      <section className="bg-white py-12">
-        <div className="grid md:grid-cols-2 gap-12 items-center px-12">
-          {/* Image for Privacy Section */}
+      {/* Privacy Section */}
+      <section className="bg-blue-800 py-20">
+        <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
+          <div>
+            <p className="text-xs tracking-widest uppercase text-amber-400 font-semibold mb-3">
+              Your Safety
+            </p>
+            <h2 className="text-3xl font-bold mb-8 text-white flex items-center gap-3">
+              Our Commitment to Privacy
+              <EyeOff className="h-7 w-7 text-amber-400 shrink-0" />
+            </h2>
+            <ul className="space-y-4">
+              {[
+                "We never collect or store user data.",
+                "We never collect or store user locations.",
+                "Your identity will be kept 100% safe.",
+                "All information is collected from public sources.",
+              ].map((item) => (
+                <li
+                  key={item}
+                  className="flex items-center gap-3 text-white/90 text-lg"
+                >
+                  <span className="bg-amber-500 rounded-full p-1 shrink-0">
+                    <Check className="h-4 w-4 text-white" />
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
           <img
             src="/city.jpg"
             alt="City Image"
-            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
+            className="w-full h-72 object-cover rounded-xl shadow-xl opacity-80"
           />
-          {/* Privacy Text */}
-          <div className="animate-fade-in-right">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
-              Our Commitment to Privacy
-              <EyeOff className="ml-3 h-8 w-8 text-amber-500" />
-            </h2>
-            <ul className="space-y-4 text-lg">
-              <li>We never collect or store user data.</li>
-              <li>We never collect or store user locations.</li>
-              <li>Your identity will be kept 100% safe.</li>
-              <li>All information is collected from public sources.</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Donation Section */}
-      <section className="bg-gray-100 py-12 bg-white">
-        <div className="container mx-auto px-6 text-center animate-fade-in-up">
-          <h2 className="text-3xl font-bold mb-8 text-blue-800 flex items-center justify-center">
-            Support Our Cause
-            <Heart className="ml-3 h-8 w-8 text-red-500" />
-          </h2>
-          <p className="text-lg mb-8">
-            Your contributions help us to provide vital resources to refugees in
-            need. Consider making a donation to support our mission.
-          </p>
-          <Button
-            size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white">
-            <a href="/donate" className="flex items-center">
-              Donate Now <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
         </div>
       </section>
 
