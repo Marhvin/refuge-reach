@@ -111,6 +111,60 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Our Impact Section */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-14">
+            <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+              By the Numbers
+            </p>
+            <h2 className="text-4xl font-bold text-blue-800">Our Impact</h2>
+          </div>
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-blue-100">
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">10</span>
+                <span className="text-3xl font-bold text-blue-800">Years</span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                of research behind the map
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                Urban Refuge began in 2016 from an incubator course at Boston
+                University.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">5</span>
+                <span className="text-3xl font-bold text-blue-800">Cities</span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                mapped
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                With Urban Refuge set to arrive in other parts of the world
+                soon.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">3</span>
+                <span className="text-3xl font-bold text-blue-800">
+                  Generations
+                </span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                of woman-led boards
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                A team and tool that prioritizes diversity and inclusivity.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Our Mission Section */}
       <section className="bg-white py-20">
         <div className="max-w-6xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
@@ -156,11 +210,7 @@ export default function Home() {
             </p>
           </div>
           <LazyLoad>
-            <video
-              className="w-full h-auto rounded-xl shadow-lg"
-              controls
-              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are"
-            >
+            <video className="w-full h-auto rounded-xl shadow-lg" controls>
               <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
               Your browser does not support the video tag.
             </video>

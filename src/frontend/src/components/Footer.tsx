@@ -8,7 +8,7 @@ export function Footer() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const mailtoLink = `mailto:ceo@urbanrefuge.org?subject=Suggestion from ${email}&body=${encodeURIComponent(
-      suggestion
+      suggestion,
     )}`;
     window.location.href = mailtoLink;
   };
@@ -19,14 +19,14 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Contact Information */}
           <div>
-            <p className="text-lg font-semibold mb-2">© 2024 URBAN REFUGE</p>
+            <p className="text-lg font-semibold mb-2">© 2026 URBAN REFUGE</p>
             <p>152 BAY STATE ROAD</p>
             <p>BOSTON, MA 02215</p>
             <a
-              href="mailto:ceo@urbanrefuge.org"
+              href="mailto:ceo@urbanrefugemap.org"
               className="text-white font-bold hover:underline mt-4 block"
             >
-              CEO@URBANREFUGE.ORG
+              ceo@urbanrefugemap.org
             </a>
           </div>
 

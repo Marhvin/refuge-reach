@@ -56,12 +56,12 @@ const FindPage: React.FC = () => {
   } = useGetAllOrganizations();
 
   const organizationTypes = Array.from(
-    new Set(organizations?.flatMap((org) => org.serviceType) ?? [])
+    new Set(organizations?.flatMap((org) => org.serviceType) ?? []),
   );
 
   const haversineDistance = (
     coords1: { lat: number; lng: number },
-    coords2: { lat: number; lng: number }
+    coords2: { lat: number; lng: number },
   ) => {
     const toRad = (value: number) => (value * Math.PI) / 180;
     const R = 6371; // Earth's radius in kilometers
@@ -115,7 +115,7 @@ const FindPage: React.FC = () => {
   };
 
   const onLoadAutocomplete = (
-    autocompleteInstance: google.maps.places.Autocomplete
+    autocompleteInstance: google.maps.places.Autocomplete,
   ) => {
     setAutocomplete(autocompleteInstance);
   };
@@ -164,9 +164,10 @@ const FindPage: React.FC = () => {
                         setSelectedTypes((prev) =>
                           checked
                             ? [...prev, type]
-                            : prev.filter((t) => t !== type)
+                            : prev.filter((t) => t !== type),
                         );
-                      }}>
+                      }}
+                    >
                       {type}
                     </DropdownMenuCheckboxItem>
                   ))}
@@ -175,7 +176,8 @@ const FindPage: React.FC = () => {
               <div className="mt-4">
                 <Autocomplete
                   onLoad={onLoadAutocomplete}
-                  onPlaceChanged={onPlaceChanged}>
+                  onPlaceChanged={onPlaceChanged}
+                >
                   <Input
                     type="text"
                     placeholder="Enter your address or zipcode"
@@ -194,9 +196,10 @@ const FindPage: React.FC = () => {
                     className={cn(
                       "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
                       selectedOrganization?.id === organization.id &&
-                        "bg-accent"
+                        "bg-accent",
                     )}
-                    onClick={() => handleSelectOrganization(organization)}>
+                    onClick={() => handleSelectOrganization(organization)}
+                  >
                     <div className="tracking-tight">
                       <span className="font-semibold text-lg text-wrap">
                         {organization.name}
@@ -248,7 +251,7 @@ const FindPage: React.FC = () => {
                 <OrganizationPreview organization={selectedOrganization} />
               ) : (
                 <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
-                  Select a store to view details
+                  Select a resource to view details
                 </div>
               )}
             </div>
