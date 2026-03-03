@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 import Home from "../pages/Home";
 import FindPage from "../pages/FindPage";
-import Donate from "../pages/Donate";
+import Contact from "../pages/Contact";
 import Maps from "../pages/Maps";
 import InTheNews from "../pages/InTheNews";
 import Team from "../pages/Team";
@@ -25,7 +25,7 @@ const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/find" element={<FindPage />} />
           <Route path="/admin" element={<AdminPage />} />
-          <Route path="/donate" element={<Donate />} />
+          <Route path="/donate" element={<Contact />} />
           <Route path="/maps" element={<Maps />} />
           <Route path="/news" element={<InTheNews />} />
           <Route path="/team" element={<Team />} />

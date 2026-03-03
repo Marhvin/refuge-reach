@@ -84,7 +84,7 @@ const Navbar: React.FC = () => {
               href="/donate"
               className="text-lg hover:text-blue-700 transition-colors"
             >
-              Donate
+              Get Involved
             </a>
 
             {/* Find Resources CTA */}
