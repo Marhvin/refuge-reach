@@ -18,7 +18,7 @@ export function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Contact Information */}
-          <div>
+          <div className="text-center md:text-left">
             <p className="text-lg font-semibold mb-2">© 2026 URBAN REFUGE</p>
             <p>152 BAY STATE ROAD</p>
             <p>BOSTON, MA 02215</p>
@@ -31,7 +31,7 @@ export function Footer() {
           </div>
 
           {/* Action Section */}
-          <div>
+          <div className="text-center md:text-left">
             <h3 className="text-lg font-bold mb-4">Action</h3>
             <a href="/donate" className="text-white hover:underline block">
               Donate
@@ -39,7 +39,7 @@ export function Footer() {
           </div>
 
           {/* Social Media Links and Suggestion Form */}
-          <div className="flex flex-col items-start md:items-end">
+          <div className="flex flex-col items-center md:items-end">
             {/* Social Media Links */}
             <div className="flex space-x-6 mb-8">
               <a
@@ -72,7 +72,7 @@ export function Footer() {
               </a>
             </div>
 
-            {/* Suggestion Form in a Square Box */}
+            {/* Suggestion Form */}
             <div className="bg-white text-blue-900 p-6 rounded-lg shadow-lg w-full max-w-md">
               <h3 className="text-lg font-bold mb-4">Submit a Suggestion</h3>
               <form onSubmit={handleSubmit} className="flex flex-col space-y-4">

@@ -6,7 +6,6 @@ import { Button } from "../components/ui/button";
 import { ScrollArea } from "../components/ui/scroll-area";
 import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
-import { Footer } from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Chip from "../components/Chip";
 import { serviceTypeColors } from "../types/organization.types";
@@ -41,6 +40,7 @@ const FindPage: React.FC = () => {
   } | null>(null);
   const [autocomplete, setAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
+  const [mobileView, setMobileView] = useState<"list" | "map">("list");
 
   const libraries: Libraries = ["places"];
   const { isLoaded } = useJsApiLoader({
@@ -134,46 +134,78 @@ const FindPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Navbar></Navbar>
+    <div className="flex flex-col min-h-screen">
+      <Navbar />
       {!isLoaded ? (
-        <div>Loading Maps...</div>
+        <div className="flex flex-1 items-center justify-center">Loading Maps...</div>
       ) : (
-        <div className="flex border h-[calc(100vh-7rem)] rounded-lg overflow-hidden">
-          <nav className="w-96 bg-background border-r">
-            <div className="p-4">
-              <Input
-                type="text"
-                placeholder="Search organizations"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="mt-2 w-full">
-                    Filter by Type
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>Select Types</DropdownMenuLabel>
-                  {organizationTypes.map((type) => (
-                    <DropdownMenuCheckboxItem
-                      key={type}
-                      checked={selectedTypes.includes(type)}
-                      onCheckedChange={(checked: boolean) => {
-                        setSelectedTypes((prev) =>
-                          checked
-                            ? [...prev, type]
-                            : prev.filter((t) => t !== type),
-                        );
-                      }}
-                    >
-                      {type}
-                    </DropdownMenuCheckboxItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-              <div className="mt-4">
+        <div className="flex flex-col flex-1 overflow-hidden">
+          {/* Mobile list/map toggle */}
+          <div className="md:hidden flex border-b shrink-0">
+            <button
+              className={cn(
+                "flex-1 py-2 text-sm font-medium transition-colors",
+                mobileView === "list"
+                  ? "bg-blue-900 text-white"
+                  : "text-blue-900 hover:bg-gray-100",
+              )}
+              onClick={() => setMobileView("list")}
+            >
+              List
+            </button>
+            <button
+              className={cn(
+                "flex-1 py-2 text-sm font-medium transition-colors",
+                mobileView === "map"
+                  ? "bg-blue-900 text-white"
+                  : "text-blue-900 hover:bg-gray-100",
+              )}
+              onClick={() => setMobileView("map")}
+            >
+              Map
+            </button>
+          </div>
+
+          <div className="flex flex-1 overflow-hidden border">
+            {/* Sidebar */}
+            <nav
+              className={cn(
+                "bg-background border-r flex flex-col md:w-96",
+                mobileView === "list" ? "flex flex-1 md:flex-none" : "hidden md:flex",
+              )}
+            >
+              <div className="p-4 space-y-2 shrink-0">
+                <Input
+                  type="text"
+                  placeholder="Search organizations"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="w-full">
+                      Filter by Type
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Select Types</DropdownMenuLabel>
+                    {organizationTypes.map((type) => (
+                      <DropdownMenuCheckboxItem
+                        key={type}
+                        checked={selectedTypes.includes(type)}
+                        onCheckedChange={(checked: boolean) => {
+                          setSelectedTypes((prev) =>
+                            checked
+                              ? [...prev, type]
+                              : prev.filter((t) => t !== type),
+                          );
+                        }}
+                      >
+                        {type}
+                      </DropdownMenuCheckboxItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Autocomplete
                   onLoad={onLoadAutocomplete}
                   onPlaceChanged={onPlaceChanged}
@@ -184,81 +216,89 @@ const FindPage: React.FC = () => {
                   />
                 </Autocomplete>
               </div>
-            </div>
-            <ScrollArea className="h-[calc(100%-10.5rem)]">
-              {isLoading && <Loader2 />}
+              <ScrollArea className="flex-1 min-h-0">
+                {isLoading && <Loader2 />}
+                {filteredOrganizations &&
+                  filteredOrganizations.map((organization) => (
+                    <Button
+                      key={organization.id}
+                      variant="ghost"
+                      className={cn(
+                        "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
+                        selectedOrganization?.id === organization.id &&
+                          "bg-accent",
+                      )}
+                      onClick={() => {
+                        handleSelectOrganization(organization);
+                        setMobileView("map");
+                      }}
+                    >
+                      <div className="tracking-tight">
+                        <span className="font-semibold text-lg text-wrap">
+                          {organization.name}
+                        </span>
+                        <div className="mt-2">
+                          {organization.address && (
+                            <div className="flex items-center text-sm">
+                              <MapPin className="h-4 w-4" />
+                              <span className="ml-1">{organization.address}</span>
+                            </div>
+                          )}
+                          {organization.distance !== null && (
+                            <div className="text-sm">
+                              {organization.distance.toFixed(2)} km away
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex flex-wrap mt-3 gap-y-2 gap-3">
+                          {organization.serviceType.map((type) => (
+                            <Chip
+                              key={type}
+                              label={type}
+                              colorClass={
+                                serviceTypeColors[type] ||
+                                "bg-gray-300 text-black"
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </Button>
+                  ))}
+              </ScrollArea>
+            </nav>
 
-              {filteredOrganizations &&
-                filteredOrganizations.map((organization) => (
-                  <Button
-                    key={organization.id}
-                    variant="ghost"
-                    className={cn(
-                      "w-full h-max justify-start px-6 py-6 text-left text-wrap shadow rounded-none",
-                      selectedOrganization?.id === organization.id &&
-                        "bg-accent",
-                    )}
-                    onClick={() => handleSelectOrganization(organization)}
-                  >
-                    <div className="tracking-tight">
-                      <span className="font-semibold text-lg text-wrap">
-                        {organization.name}
-                      </span>
-                      <div className="mt-2">
-                        {organization.address && (
-                          <div className="flex items-center text-sm">
-                            <MapPin className="h-4 w-4" />
-                            <span className="ml-1">{organization.address}</span>
-                          </div>
-                        )}
-                        {organization.distance !== null && (
-                          <div className="text-sm">
-                            {organization.distance.toFixed(2)} km away
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex flex-wrap mt-3 gap-y-2 gap-3">
-                        {organization.serviceType.map((type) => (
-                          <Chip
-                            key={type}
-                            label={type}
-                            colorClass={
-                              serviceTypeColors[type] ||
-                              "bg-gray-300 text-black"
-                            }
-                          />
-                        ))}
-                      </div>
-                    </div>
-                  </Button>
-                ))}
-            </ScrollArea>
-          </nav>
-          <main className="flex-1 flex flex-col">
-            <div className="flex-1">
-              {filteredOrganizations ? (
-                <OrganizationMap
-                  organizations={filteredOrganizations}
-                  setSelectedOrganization={setSelectedOrganization}
-                  mapCenter={mapCenter}
-                />
-              ) : (
-                <Loader2 />
+            {/* Map + preview */}
+            <main
+              className={cn(
+                "flex-1 flex flex-col min-w-0",
+                mobileView === "map" ? "flex" : "hidden md:flex",
               )}
-            </div>
-            <div className="h-80 p-6 bg-background overflow-auto">
-              {selectedOrganization ? (
-                <OrganizationPreview organization={selectedOrganization} />
-              ) : (
-                <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
-                  Select a resource to view details
-                </div>
-              )}
-            </div>
-          </main>
+            >
+              <div className="flex-1 min-h-0">
+                {filteredOrganizations ? (
+                  <OrganizationMap
+                    organizations={filteredOrganizations}
+                    setSelectedOrganization={setSelectedOrganization}
+                    mapCenter={mapCenter}
+                  />
+                ) : (
+                  <Loader2 />
+                )}
+              </div>
+              <div className="h-80 shrink-0 p-6 bg-background overflow-auto">
+                {selectedOrganization ? (
+                  <OrganizationPreview organization={selectedOrganization} />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-muted-foreground text-xl">
+                    Select a resource to view details
+                  </div>
+                )}
+              </div>
+            </main>
+          </div>
         </div>
       )}
-      <Footer />
     </div>
   );
 };
