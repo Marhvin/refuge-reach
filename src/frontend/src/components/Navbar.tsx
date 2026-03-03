@@ -74,8 +74,8 @@ const Navbar: React.FC = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <a href="/donate" className="text-lg hover:text-blue-700 transition-colors">
-              Get Involved
+            <a href="/contact" className="text-lg hover:text-blue-700 transition-colors">
+              Contact
             </a>
 
             <a
@@ -150,7 +150,7 @@ const Navbar: React.FC = () => {
           </div>
 
           <a
-            href="/donate"
+            href="/contact"
             className="text-lg hover:text-blue-700 transition-colors py-2"
             onClick={() => setMobileOpen(false)}
           >
