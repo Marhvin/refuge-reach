@@ -10,14 +10,14 @@ const articles = [
       "With the APSIA honor, the Urban Refuge Program adds another feather to its cap — signifying that social change is rooted in curiosity, collaboration, community, and commitment.",
     image: "/news/APSIA.jpg",
 
-    link: "#",
+    link: "https://www.bu.edu/pardeeschool/2025/06/24/pardees-urban-refuge-program-wins-apsia-award-for-community-building/",
   },
   {
     title: "Urban Refuge Alumni Reunion Highlights Careers and Impact",
     quote:
       "If you're very passionate about something, it doesn't have to be your 9-to-5. You can still continue impacting that change in the 5-to-9 that you have after you leave that job.",
     image: "/news/urteam.jpeg",
-    link: "#https://bnid.org/creation-of-urban-refuge-app-at-boston-university/",
+    link: "https://www.bu.edu/pardeeschool/2024/12/05/urban-refuge-alumni-reunion-highlights-careers-and-impact/",
   },
   {
     title:
@@ -25,7 +25,7 @@ const articles = [
     quote:
       'The number one take away I have from this project is to eliminate the words "I cannot" from my vocabulary. Whenever you\'re asked if you can do something you say yes because you can always learn.',
     image: "/news/bnid.png",
-    link: "#",
+    link: "https://bnid.org/creation-of-urban-refuge-app-at-boston-university/",
   },
   {
     title:
@@ -33,7 +33,7 @@ const articles = [
     quote:
       "Noora says she's been inspired by the passion her students bring to the project. \"They started out saying 'How on earth are we going to build an app? We don't know anything about coding or tech!' They've since learned how to tap into their own networks, building allies throughout BU and from larger organizations who are willing to help… and even code.\"",
     image: "/news/pearson.webp",
-    link: "#",
+    link: "https://www.bu.edu/pardeeschool/2016/12/23/lori-interviewed-in-pearson-on-urban-refuge-app/",
   },
   {
     title:
@@ -41,28 +41,28 @@ const articles = [
     quote:
       "Under Dr. Lori's mentorship, Pardee students have been instrumental in evolving Urban Refuge's vision from a geolocation app initially developed to support refugees in Jordan to a comprehensive platform now focused on supporting displaced individuals in the Greater Boston area.",
     image: "/news/pardee.jpg",
-    link: "#",
+    link: "https://www.bu.edu/pardeeschool/2024/12/05/pardee-students-lead-urban-refuges-continued-impact-at-bostonhacks/",
   },
   {
     title: "Urban Refuge Getting Attention down in Miami, FL!",
     quote:
       'Francesca Paranzino y sus compañeras de la Universidad de Boston estaban "un poco cansadas" de trabajar sólo con teorías. Por eso cuando en una de sus clases les pidieron analizar cómo se podría usar la tecnología para ayudar a las personas que buscan refugio en otros países, ellas decidieron ir más allá.',
     image: "/news/enh.png",
-    link: "#",
+    link: "https://www.elnuevoherald.com/noticias/florida/sur-de-la-florida/article102807302.html",
   },
   {
     title: "Urban Refuge feature in Bostonia",
     quote:
       "We would use the students' creativity and new technologies, bring in alumni, consult with an entire network of businessmen and -women with expertise in technical fields. The result far exceeded her expectations.",
     image: "/news/bostonia.jpg",
-    link: "#",
+    link: "https://www.bu.edu/bostonia/2016/bu-students-creates-app-to-aid-syrian-refugees/",
   },
   {
     title: "Dev Radio Full Interview",
     quote:
       "Join Jerry Nixon as he welcomes the team from Urban Refuge as they describe how they worked with a team of Microsoft Technical Evangelists to help create this cross-platform app using Xamarin.",
     image: "/news/devradio.webp",
-    link: "#",
+    link: "https://www.bu.edu/pardeeschool/2016/12/06/pardee-students-partner-with-microsoft-to-develop-app/",
   },
 ];
 
@@ -127,6 +127,8 @@ export default function InTheNews() {
                   </div>
                   <a
                     href={article.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-amber-600 font-semibold text-sm hover:text-amber-700 transition-colors self-start"
                   >
                     Learn More
