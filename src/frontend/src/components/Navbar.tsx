@@ -1,5 +1,5 @@
 import { ChevronDown, MapPin, Menu, Newspaper, Users, X } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useCurrentUser } from "../hooks/user.hooks";
 import {
   DropdownMenu,
@@ -8,9 +8,21 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  transparent?: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
   const { data: user, isPending, isError } = useCurrentUser();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (!transparent) return;
+    const onScroll = () => setScrolled(window.scrollY > 60);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [transparent]);
 
   const loginLabel =
     isPending && !isError ? (
@@ -21,8 +33,18 @@ const Navbar: React.FC = () => {
       "Login"
     );
 
+  const isLight = transparent && !scrolled;
+
   return (
-    <nav className="bg-gray-50 text-blue-900 shadow-md">
+    <nav
+      className={`${
+        transparent ? "fixed top-0 left-0 right-0 z-50" : ""
+      } transition-all duration-300 ${
+        isLight
+          ? "bg-transparent shadow-none"
+          : "bg-gray-50 text-blue-900 shadow-md"
+      }`}
+    >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-28">
           {/* Logo */}
@@ -32,13 +54,22 @@ const Navbar: React.FC = () => {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center space-x-8">
-            <a href="/" className="text-lg hover:text-blue-700 transition-colors">
+            <a
+              href="/"
+              className={`text-lg transition-colors ${
+                isLight ? "text-white/90 hover:text-white" : "hover:text-blue-700"
+              }`}
+            >
               Home
             </a>
 
             {/* About dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-lg hover:text-blue-700 transition-colors outline-none">
+              <DropdownMenuTrigger
+                className={`flex items-center gap-1 text-lg transition-colors outline-none ${
+                  isLight ? "text-white/90 hover:text-white" : "hover:text-blue-700"
+                }`}
+              >
                 About
                 <ChevronDown className="h-4 w-4 opacity-70" />
               </DropdownMenuTrigger>
@@ -60,7 +91,11 @@ const Navbar: React.FC = () => {
 
             {/* Media dropdown */}
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center gap-1 text-lg hover:text-blue-700 transition-colors outline-none">
+              <DropdownMenuTrigger
+                className={`flex items-center gap-1 text-lg transition-colors outline-none ${
+                  isLight ? "text-white/90 hover:text-white" : "hover:text-blue-700"
+                }`}
+              >
                 Media
                 <ChevronDown className="h-4 w-4 opacity-70" />
               </DropdownMenuTrigger>
@@ -74,7 +109,12 @@ const Navbar: React.FC = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <a href="/contact" className="text-lg hover:text-blue-700 transition-colors">
+            <a
+              href="/contact"
+              className={`text-lg transition-colors ${
+                isLight ? "text-white/90 hover:text-white" : "hover:text-blue-700"
+              }`}
+            >
               Contact
             </a>
 
@@ -87,7 +127,11 @@ const Navbar: React.FC = () => {
 
             <a
               href="/login"
-              className="border-2 border-blue-900 text-blue-900 text-lg px-4 py-1 rounded-lg hover:bg-blue-900 hover:text-white transition-colors"
+              className={`text-lg px-4 py-1 rounded-lg transition-colors border-2 ${
+                isLight
+                  ? "border-white/60 text-white hover:bg-white hover:text-blue-900"
+                  : "border-blue-900 text-blue-900 hover:bg-blue-900 hover:text-white"
+              }`}
             >
               {loginLabel}
             </a>
@@ -95,11 +139,17 @@ const Navbar: React.FC = () => {
 
           {/* Hamburger button (mobile) */}
           <button
-            className="md:hidden p-2 rounded-md hover:bg-gray-200 transition-colors"
+            className={`md:hidden p-2 rounded-md transition-colors ${
+              isLight ? "hover:bg-white/20" : "hover:bg-gray-200"
+            }`}
             onClick={() => setMobileOpen((o) => !o)}
             aria-label="Toggle menu"
           >
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {mobileOpen ? (
+              <X className={`h-6 w-6 ${isLight ? "text-white" : ""}`} />
+            ) : (
+              <Menu className={`h-6 w-6 ${isLight ? "text-white" : ""}`} />
+            )}
           </button>
         </div>
       </div>
@@ -115,7 +165,6 @@ const Navbar: React.FC = () => {
             Home
           </a>
 
-          {/* About section */}
           <div className="flex flex-col space-y-1">
             <span className="text-lg font-medium text-blue-900">About</span>
             <a
@@ -136,7 +185,6 @@ const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* Media section */}
           <div className="flex flex-col space-y-1">
             <span className="text-lg font-medium text-blue-900">Media</span>
             <a
