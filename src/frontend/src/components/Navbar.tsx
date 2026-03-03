@@ -1,4 +1,4 @@
-import { ChevronDown, MapPin, Newspaper } from "lucide-react";
+import { ChevronDown, MapPin, Newspaper, Users } from "lucide-react";
 import { useCurrentUser } from "../hooks/user.hooks";
 import {
   DropdownMenu,
@@ -47,6 +47,15 @@ const Navbar: React.FC = () => {
                   >
                     <MapPin className="h-4 w-4 text-amber-500" />
                     Our Maps
+                  </a>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <a
+                    href="/team"
+                    className="flex items-center gap-2 cursor-pointer"
+                  >
+                    <Users className="h-4 w-4 text-amber-500" />
+                    Our Team
                   </a>
                 </DropdownMenuItem>
               </DropdownMenuContent>
