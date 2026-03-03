@@ -1,12 +1,12 @@
 import { InstagramLogoIcon, LinkedInLogoIcon } from "@radix-ui/react-icons";
 import { Mail } from "lucide-react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 export function Footer() {
   const [email, setEmail] = useState("");
   const [suggestion, setSuggestion] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const mailtoLink = `mailto:ceo@urbanrefuge.org?subject=Suggestion from ${email}&body=${encodeURIComponent(
       suggestion,
