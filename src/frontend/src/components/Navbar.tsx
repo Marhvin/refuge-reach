@@ -19,7 +19,10 @@ const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
 
   useEffect(() => {
     if (!transparent) return;
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 60;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+    };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, [transparent]);
@@ -46,10 +49,10 @@ const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-28">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="/">
-            <img src="/URLogo.png" alt="Urban Refuge Logo" className="h-24 w-auto" />
+            <img src="/URLogo.png" alt="Urban Refuge Logo" className="h-16 w-auto" />
           </a>
 
           {/* Desktop links */}

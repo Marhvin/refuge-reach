@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Heart, Users, MapPin, ChevronDown } from "lucide-react";
+import { ArrowRight, Heart, Users, MapPin } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import LazyLoad from "react-lazy-load";
@@ -66,12 +66,6 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 z-10">
-          <span className="text-white/30 text-[10px] tracking-[0.3em] uppercase">
-            Scroll
-          </span>
-          <ChevronDown className="h-4 w-4 text-white/30 animate-bounce" />
-        </div>
       </section>
 
       {/* The Challenge */}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useGetAllOrganizations } from "../hooks/organizations.hooks";
 import { MapPin, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
@@ -7,7 +7,7 @@ import { ScrollArea } from "../components/ui/scroll-area";
 import { Organization } from "shared";
 import OrganizationMap from "../components/OrganizationMap";
 import Navbar from "../components/Navbar";
-import Chip from "../components/Chip";
+import Chip, { formatLabel } from "../components/Chip";
 import { serviceTypeColors } from "../types/organization.types";
 import { Input } from "../components/ui/input";
 import {
@@ -24,6 +24,24 @@ import {
   Autocomplete,
   Libraries,
 } from "@react-google-maps/api";
+
+const haversineDistance = (
+  coords1: { lat: number; lng: number },
+  coords2: { lat: number; lng: number },
+) => {
+  const toRad = (value: number) => (value * Math.PI) / 180;
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = toRad(coords2.lat - coords1.lat);
+  const dLng = toRad(coords2.lng - coords1.lng);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(coords1.lat)) *
+      Math.cos(toRad(coords2.lat)) *
+      Math.sin(dLng / 2) *
+      Math.sin(dLng / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
 
 const FindPage: React.FC = () => {
   const [mapCenter, setMapCenter] = useState({
@@ -55,27 +73,13 @@ const FindPage: React.FC = () => {
     error,
   } = useGetAllOrganizations();
 
-  const organizationTypes = Array.from(
-    new Set(organizations?.flatMap((org) => org.serviceType) ?? []),
+  const organizationTypes = useMemo(
+    () =>
+      Array.from(
+        new Set(organizations?.flatMap((org) => org.serviceType) ?? []),
+      ),
+    [organizations],
   );
-
-  const haversineDistance = (
-    coords1: { lat: number; lng: number },
-    coords2: { lat: number; lng: number },
-  ) => {
-    const toRad = (value: number) => (value * Math.PI) / 180;
-    const R = 6371; // Earth's radius in kilometers
-    const dLat = toRad(coords2.lat - coords1.lat);
-    const dLng = toRad(coords2.lng - coords1.lng);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(coords1.lat)) *
-        Math.cos(toRad(coords2.lat)) *
-        Math.sin(dLng / 2) *
-        Math.sin(dLng / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c;
-  };
 
   const filteredOrganizations = organizations
     ?.filter((organization) => {
@@ -201,7 +205,7 @@ const FindPage: React.FC = () => {
                           );
                         }}
                       >
-                        {type}
+                        {formatLabel(type)}
                       </DropdownMenuCheckboxItem>
                     ))}
                   </DropdownMenuContent>

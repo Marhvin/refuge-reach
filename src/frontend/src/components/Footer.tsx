@@ -8,7 +8,7 @@ export function Footer() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:ceo@urbanrefuge.org?subject=Suggestion from ${email}&body=${encodeURIComponent(
+    const mailtoLink = `mailto:ceo@urbanrefugemap.org?subject=Suggestion from ${email}&body=${encodeURIComponent(
       suggestion,
     )}`;
     window.location.href = mailtoLink;
@@ -31,7 +31,7 @@ export function Footer() {
             </a>
             <div className="flex space-x-4 mt-5">
               <a
-                href="mailto:ceo@urbanrefuge.org"
+                href="mailto:ceo@urbanrefugemap.org"
                 className="hover:text-blue-300 transition-colors"
                 aria-label="Email"
               >

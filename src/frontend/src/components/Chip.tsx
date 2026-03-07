@@ -5,7 +5,7 @@ interface ChipProps {
   colorClass: string;
 }
 
-function formatLabel(raw: string): string {
+export function formatLabel(raw: string): string {
   return raw
     .toLowerCase()
     .replace(/_/g, " ")
