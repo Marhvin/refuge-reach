@@ -18,10 +18,11 @@ const execBoard: ExecMember[] = [
     name: "Professor Noora Lori",
     image: "/team/noora.webp",
   },
-  { role: "Chief Executive Officer" },
-  { role: "Chief Technology Officer" },
-  { role: "Chief Operations Officer" },
-  { role: "Chief Marketing Officer" },
+  { role: "Chief Executive Officer", name: "Daria Kosack", image: "/team/daria.png" },
+  { role: "Technology Team Director", name: "Zora Browne", image: "/team/zora.png" },
+  { role: "Research and Operations Team Director", name: "Katie Kunkle", image: "/team/katie.png" },
+  { role: "Marketing Team Director", name: "Isabella Chaparro Will", image: "/team/isabella.png" },
+  { role: "Business Team Director", name: "Sofia" },
 ];
 
 
@@ -162,13 +163,12 @@ export default function Team() {
               Executive Board
             </h2>
             <p className="text-blue-800/70 max-w-xl mx-auto">
-              Urban Refuge is run by a team of entrepreneurs all under the age
-              of 24, who have dedicated themselves to social good and innovative
+              Urban Refuge is run by a team of entrepreneurs who have dedicated themselves to social good and innovative
               entrepreneurship.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {execBoard.map((member) => (
               <div
                 key={member.role}
