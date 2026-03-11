@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ArrowRight, Heart, Users, MapPin } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import LazyLoad from "react-lazy-load";
@@ -163,34 +163,29 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                icon: <MapPin className="h-5 w-5" />,
-                accent: "bg-red-50 text-red-500",
+                num: "01",
                 title: "Locate Aid",
                 desc: "Our platform provides displaced people with access to nearby resources, including food banks, shelters, and medical clinics.",
               },
               {
-                icon: <Users className="h-5 w-5" />,
-                accent: "bg-emerald-50 text-emerald-600",
+                num: "02",
                 title: "Community Support",
                 desc: "We help displaced individuals integrate into local communities by connecting them to support networks that foster inclusivity.",
               },
               {
-                icon: <Heart className="h-5 w-5" />,
-                accent: "bg-blue-50 text-blue-600",
+                num: "03",
                 title: "Contribute",
                 desc: "We provide ways for individuals and organizations to assist displaced populations by adding resources or volunteering.",
               },
             ].map((item) => (
               <div
                 key={item.title}
-                className="group p-8 border border-slate-100 hover:border-slate-200 hover:shadow-2xl transition-all duration-300 rounded-2xl"
+                className="group p-8 border-l-2 border-amber-500 hover:border-blue-800 transition-colors duration-300"
               >
-                <div
-                  className={`inline-flex p-3 rounded-xl mb-6 ${item.accent}`}
-                >
-                  {item.icon}
-                </div>
-                <h3 className="text-xl font-bold text-blue-950 mb-3">
+                <span className="text-xs font-mono text-amber-600 tracking-wider">
+                  {item.num}
+                </span>
+                <h3 className="text-xl font-bold text-blue-950 mt-2 mb-3">
                   {item.title}
                 </h3>
                 <p className="text-slate-500 leading-relaxed text-sm">
