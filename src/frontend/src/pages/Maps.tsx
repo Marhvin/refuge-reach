@@ -44,8 +44,8 @@ export default function Maps() {
             The Urban Refuge Maps
           </h1>
           <p className="text-lg text-white/85 leading-relaxed">
-            Urban Refuge is designed for migrant and refugee populations that
-            call large global cities home, and for the organizations that
+            Urban Refuge is designed for displaced and underserved populations
+            that call large global cities home, and for the organizations that
             provide aid resources to them.
           </p>
         </div>

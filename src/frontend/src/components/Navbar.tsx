@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <a href="/">
-            <img src="/URLogo.png" alt="Urban Refuge Logo" className="h-16 w-auto" />
+            <img src="/URLogo.png" alt="Urban Refuge Logo" className="h-20 w-auto" />
           </a>
 
           {/* Desktop links */}

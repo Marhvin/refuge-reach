@@ -127,7 +127,7 @@ export default function Home() {
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-8">
               Urban Refuge is dedicated to providing up-to-date information on
-              aid resources for refugees in urban areas. Our platform allows
+              aid resources for displaced and underserved populations in urban areas. Our platform allows
               users to easily locate and access vital services while also
               contributing to the growing network of support.
             </p>
@@ -214,9 +214,9 @@ export default function Home() {
             </h2>
             <p className="text-slate-600 text-lg leading-relaxed mb-8">
               Urban Refuge is a dedicated team committed to making aid
-              accessible for refugees. Our mission is to bridge the gap between
-              refugees and the resources they need to thrive in urban
-              environments.
+              accessible for displaced and underserved populations. Our mission
+              is to bridge the gap between these communities and the resources
+              they need to thrive in urban environments.
             </p>
             <a
               href="/team"

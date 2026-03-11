@@ -79,8 +79,9 @@ export default function GetInvolved() {
               partners receive the technology that we have created free of
               charge, and we are able to expand the reach of our app through the
               localized information that our partners provide. Together, we are
-              able to improve the livelihoods of refugees living in cities with
-              a demonstrated need for our services.
+              able to improve the livelihoods of displaced and underserved
+              populations living in cities with a demonstrated need for our
+              services.
             </p>
             <p>
               Specifically, we are looking for organizations that are dedicated
