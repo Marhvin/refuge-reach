@@ -14,17 +14,36 @@ interface ExecMember {
 
 const execBoard: ExecMember[] = [
   {
-    role: "Faculty Advisor · Founding Director",
+    role: "Founding Director",
     name: "Professor Noora Lori",
     image: "/team/noora.webp",
   },
-  { role: "Chief Executive Officer", name: "Daria Kosack", image: "/team/daria.png" },
-  { role: "Technology Team Director", name: "Zora Browne", image: "/team/zora.png" },
-  { role: "Research and Operations Team Director", name: "Katie Kunkle", image: "/team/katie.png" },
-  { role: "Marketing Team Director", name: "Isabella Chaparro Will", image: "/team/isabella.png" },
-  { role: "Business Team Director", name: "Sofia" },
+  {
+    role: "Chief Executive Officer",
+    name: "Daria Kosack",
+    image: "/team/daria.png",
+  },
+  {
+    role: "Technology Team Director",
+    name: "Zora Browne",
+    image: "/team/zora.png",
+  },
+  {
+    role: "Res & Ops Team Director",
+    name: "Katie Kunkle",
+    image: "/team/katie.png",
+  },
+  {
+    role: "Marketing Team Director",
+    name: "Isabella Chaparro Will",
+    image: "/team/isabella.png",
+  },
+  {
+    role: "Business Team Director",
+    name: "Sofia Echenique",
+    image: "/team/sofia.png",
+  },
 ];
-
 
 // ── Sub-components ─────────────────────────────────────────────────────────
 
@@ -111,7 +130,8 @@ export default function Team() {
               Urban Refuge was founded in{" "}
               <span className="font-semibold text-blue-800">2016</span> as part
               of an incubator class at Boston University. The goal of the
-              founding class was to map aid for displaced and underserved populations in{" "}
+              founding class was to map aid for displaced and underserved
+              populations in{" "}
               <span className="font-semibold text-blue-800">Amman, Jordan</span>{" "}
               using an open-source app that they can access free of charge.
             </p>
@@ -126,29 +146,29 @@ export default function Team() {
             <p>
               Urban Refuge is a living project: old members hand the torch to
               new ones, alumni stay connected, and each cohort leaves the app
-              stronger than they found it. It is a
-              testament to what a small, passionate team can build when driven by
-              curiosity, collaboration, community, and commitment.
+              stronger than they found it. It is a testament to what a small,
+              passionate team can build when driven by curiosity, collaboration,
+              community, and commitment.
             </p>
           </div>
+        </div>
 
-          {/* Journey timeline chips */}
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
-            {[
-              { year: "2016", label: "Founded at BU — Jordan focus" },
-              { year: "2018", label: "Expanded to Istanbul" },
-              { year: "2022", label: "Boston & US cities" },
-              { year: "2024", label: "Continued global growth" },
-            ].map(({ year, label }) => (
-              <div
-                key={year}
-                className="flex items-center gap-3 bg-blue-800 text-white rounded-full px-5 py-2 text-sm"
-              >
-                <span className="font-bold text-amber-400">{year}</span>
-                <span>{label}</span>
-              </div>
-            ))}
-          </div>
+        {/* Journey timeline chips */}
+        <div className="flex flex-nowrap justify-center gap-4 mt-10 px-8">
+          {[
+            { year: "2016", label: "Founded at BU — Jordan focus" },
+            { year: "2018", label: "Expanded to Istanbul" },
+            { year: "2022", label: "Boston & US cities" },
+            { year: "2024", label: "Continued global growth" },
+          ].map(({ year, label }) => (
+            <div
+              key={year}
+              className="flex items-center gap-3 bg-blue-800 text-white rounded-full px-5 py-2 text-sm shrink-0 whitespace-nowrap"
+            >
+              <span className="font-bold text-amber-400">{year}</span>
+              <span>{label}</span>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -163,8 +183,8 @@ export default function Team() {
               Executive Board
             </h2>
             <p className="text-blue-800/70 max-w-xl mx-auto">
-              Urban Refuge is run by a team of entrepreneurs who have dedicated themselves to social good and innovative
-              entrepreneurship.
+              Urban Refuge is run by a team of entrepreneurs who have dedicated
+              themselves to social good and innovative entrepreneurship.
             </p>
           </div>
 
@@ -188,7 +208,6 @@ export default function Team() {
           </div>
         </div>
       </section>
-
 
       {/* CTA */}
       <section className="bg-blue-800 py-16 text-center">
