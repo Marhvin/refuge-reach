@@ -1,21 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import {
-  ArrowRight,
-  Heart,
-  Users,
-  MapPin,
-  Handshake,
-  Target,
-  EyeOff,
-} from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Navbar from "../components/Navbar";
 import { Footer } from "../components/Footer";
 import LazyLoad from "react-lazy-load";
@@ -29,194 +13,296 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
-      <Navbar />
-      {/* Hero Section */}
-      <section
-        className={`relative text-center py-36 transform transition-all duration-1000 ease-in-out ${
-          heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        }`}
-        style={{
-          backgroundImage:
-            "url('https://images.squarespace-cdn.com/content/v1/573c78072eeb81d0d869605e/1582507523282-TTGYUS5RZUUVDL575VED/image-asset.jpeg?format=2500w')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}>
-        <div className="absolute inset-0 bg-blue-800 opacity-30"></div>
-        <div className="relative z-10">
-          <h1 className="text-5xl font-bold mb-4 text-white animate-fade-in-down">
-            Welcome to Urban Refuge
-          </h1>
-          <p className="text-2xl mb-6 text-white animate-fade-in-down delay-100">
-            Making aid accessible for refugees.
+    <main className="bg-white overflow-hidden">
+      <Navbar transparent />
+
+      {/* Hero — full-screen, bottom-anchored editorial layout */}
+      <section className="relative h-screen min-h-[700px] flex items-end pb-24">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "url('https://images.squarespace-cdn.com/content/v1/573c78072eeb81d0d869605e/1582507523282-TTGYUS5RZUUVDL575VED/image-asset.jpeg?format=2500w')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/50 to-transparent" />
+
+        <div
+          className={`relative z-10 max-w-7xl mx-auto px-8 w-full transition-all duration-1000 ease-out ${
+            heroLoaded
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
+          }`}
+        >
+          <div className="max-w-2xl">
+            <p className="text-amber-400 text-xs tracking-[0.3em] uppercase font-semibold mb-6">
+              Putting Aid on the Map
+            </p>
+            <h1 className="text-8xl font-bold text-white leading-none mb-6 tracking-tight">
+              Urban
+              <br />
+              Refuge
+            </h1>
+            <p className="text-xl text-white/70 leading-relaxed mb-10 max-w-md">
+              Connecting displaced people with vital resources in their
+              communities.
+            </p>
+            <div className="flex items-center gap-4 flex-wrap">
+              <a
+                href="/find"
+                className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-white font-semibold px-7 py-3.5 rounded-full transition-all duration-200 text-sm tracking-wide"
+              >
+                Find Resources <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                href="/maps"
+                className="inline-flex items-center gap-2 text-white/80 hover:text-white border border-white/30 hover:border-white/60 px-7 py-3.5 rounded-full transition-all duration-200 text-sm tracking-wide"
+              >
+                View Maps
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      {/* The Challenge */}
+      <section className="bg-blue-950 py-28">
+        <div className="max-w-7xl mx-auto px-8">
+          <p className="text-white/40 text-xs tracking-[0.3em] uppercase font-semibold mb-16">
+            As of the end of 2024
           </p>
-          <Button
-            size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white animate-fade-in-down delay-200">
-            <a href="/find" className="flex items-center">
-              Find Resources <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
+          <div className="grid md:grid-cols-2 gap-12 items-end">
+            <div>
+              <p
+                className="text-white font-bold leading-none"
+                style={{
+                  fontSize: "clamp(4rem, 11vw, 8rem)",
+                  letterSpacing: "-0.03em",
+                }}
+              >
+                123.2M
+              </p>
+              <p className="text-white/50 text-2xl font-semibold mt-3 tracking-wide uppercase">
+                People
+              </p>
+            </div>
+            <div className="md:pb-4">
+              <div className="w-12 h-px bg-white/20 mb-8" />
+              <p className="text-white/70 text-xl leading-relaxed">
+                were forced to flee their homes globally due to persecution,
+                conflict, violence, human rights violations or events seriously
+                disturbing public order.
+              </p>
+              <a
+                href="/maps"
+                className="inline-flex items-center gap-2 text-amber-400 hover:text-amber-300 font-medium text-sm mt-8 transition-colors border-b border-amber-400/40 hover:border-amber-300 pb-1"
+              >
+                See how we help <ArrowRight className="h-4 w-4" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* What We Do Section */}
-      <section className="py-12">
-        <div className="flex items-center justify-center mb-8 animate-fade-in-up">
-          <h2 className="text-4xl font-bold text-blue-800">What We Do</h2>
-          <Handshake className="ml-3 h-8 w-8 text-amber-500" />
-        </div>
-        <div className="grid md:grid-cols-3 gap-8 mb-12 px-16">
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-100">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <MapPin className="mr-2 h-7 w-7 text-red-500" />
-                Locate Aid
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                Our platform provides refugees with access to nearby resources,
-                including food banks, shelters, and medical clinics. With our
-                user-friendly tools, locating assistance in urban areas becomes
-                straightforward and efficient.
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-200">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <Users className="mr-2 h-7 w-7 text-green-500" />
-                Community Support
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                We help refugees integrate into local communities by connecting
-                them to support networks that foster inclusivity. Whether
-                through social events, language classes, or group activities,
-                Urban Refuge works to create a sense of belonging.
-              </CardDescription>
-            </CardContent>
-          </Card>
-          <Card className="bg-white shadow-md hover:shadow-lg transition-shadow p-6 h-auto relative animate-fade-in-up delay-300">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl mb-4">
-                <Heart className="mr-2 h-7 w-7 text-blue-500" />
-                Contribute
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-lg text-gray-700 mb-8">
-                Contributing to the cause is simple. We provide avenues for
-                individuals and organizations to assist refugees by adding new
-                resources or updating existing information. You can help by
-                volunteering, donating, or sharing your expertise to create more
-                comprehensive support.
-              </CardDescription>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Our Mission and Who We Are Sections */}
-      <section className="bg-white py-12">
-        {/* Our Mission Section */}
-        <div className="grid md:grid-cols-2 gap-12 items-center px-12">
-          {/* Image for Our Mission Section */}
-          <img
-            src="/stock.jpg"
-            alt="Stock Image"
-            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
-          />
-          {/* Our Mission Text */}
-          <div className="animate-fade-in-right">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
+      {/* Mission — split with decorative offset */}
+      <section className="bg-white py-32">
+        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
+          <div className="relative">
+            <img
+              src="/news/urteam.jpeg"
+              alt="Urban Refuge in action"
+              className="w-full h-96 object-cover rounded-2xl shadow-2xl relative z-10"
+            />
+            <div className="absolute -bottom-5 -right-5 w-36 h-36 bg-amber-400 rounded-2xl -z-0" />
+          </div>
+          <div>
+            <p className="text-amber-600 text-xs tracking-[0.3em] uppercase font-semibold mb-6">
+              Our Purpose
+            </p>
+            <h2 className="text-5xl font-bold text-blue-950 leading-tight mb-6">
               Our Mission
-              <Target className="ml-3 h-8 w-8 text-amber-500" />
             </h2>
-            <p className="text-lg">
+            <p className="text-slate-600 text-lg leading-relaxed mb-8">
               Urban Refuge is dedicated to providing up-to-date information on
-              aid resources for refugees in urban areas. Our platform allows
+              aid resources for displaced and underserved populations in urban areas. Our platform allows
               users to easily locate and access vital services while also
               contributing to the growing network of support.
             </p>
+            <a
+              href="/find"
+              className="inline-flex items-center gap-2 bg-blue-950 hover:bg-blue-900 text-white font-medium px-7 py-3.5 rounded-full text-sm transition-colors"
+            >
+              Find Resources <ArrowRight className="h-4 w-4" />
+            </a>
           </div>
         </div>
+      </section>
 
-        {/* Who We Are Section */}
-        <div className="grid md:grid-cols-2 gap-12 items-center mt-16 px-12">
-          {/* Who We Are Text */}
-          <div className="animate-fade-in-left">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
-              Who We Are
-              <Users className="ml-3 h-8 w-8 text-amber-500" />
-            </h2>
-            <p className="text-lg">
-              Urban Refuge is a dedicated team committed to making aid
-              accessible for refugees. Our mission is to bridge the gap between
-              refugees and the resources they need to thrive in urban
-              environments.
-            </p>
-          </div>
-          {/* Video */}
-          <LazyLoad className="animate-fade-in-right">
-            <video
-              className="w-full h-auto rounded-lg shadow-md mb-5"
-              controls
-              poster="https://via.placeholder.com/800x450.png?text=Who+We+Are" // Optional poster image
+      {/* What We Do */}
+      <section className="bg-slate-50 py-32">
+        <div className="max-w-7xl mx-auto px-8">
+          <div className="flex items-end justify-between mb-16 flex-wrap gap-6">
+            <div>
+              <p className="text-amber-600 text-xs tracking-[0.3em] uppercase font-semibold mb-4">
+                Our Services
+              </p>
+              <h2 className="text-5xl font-bold text-blue-950 leading-tight">
+                What We Do
+              </h2>
+            </div>
+            <a
+              href="/find"
+              className="inline-flex items-center gap-2 text-blue-950/60 hover:text-blue-950 text-sm transition-colors border-b border-blue-950/20 hover:border-blue-950 pb-1"
             >
-              <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+              Find resources <ArrowRight className="h-3.5 w-3.5" />
+            </a>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              {
+                num: "01",
+                title: "Locate Aid",
+                desc: "Our platform provides displaced people with access to nearby resources, including food banks, shelters, and medical clinics.",
+              },
+              {
+                num: "02",
+                title: "Community Support",
+                desc: "We help displaced individuals integrate into local communities by connecting them to support networks that foster inclusivity.",
+              },
+              {
+                num: "03",
+                title: "Contribute",
+                desc: "We provide ways for individuals and organizations to assist displaced populations by adding resources or volunteering.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="group p-8 border-l-2 border-amber-500 hover:border-blue-800 transition-colors duration-300"
+              >
+                <span className="text-xs font-mono text-amber-600 tracking-wider">
+                  {item.num}
+                </span>
+                <h3 className="text-xl font-bold text-blue-950 mt-2 mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-slate-500 leading-relaxed text-sm">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Who We Are */}
+      <section className="bg-white py-32">
+        <div className="max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-20 items-center">
+          <div>
+            <p className="text-amber-600 text-xs tracking-[0.3em] uppercase font-semibold mb-6">
+              Our Team
+            </p>
+            <h2 className="text-5xl font-bold text-blue-950 leading-tight mb-6">
+              Who We Are
+            </h2>
+            <p className="text-slate-600 text-lg leading-relaxed mb-8">
+              Urban Refuge is a dedicated team committed to making aid
+              accessible for displaced and underserved populations. Our mission
+              is to bridge the gap between these communities and the resources
+              they need to thrive in urban environments.
+            </p>
+            <a
+              href="/team"
+              className="inline-flex items-center gap-2 text-blue-950 hover:text-blue-700 font-medium text-sm transition-colors border-b border-blue-950/30 hover:border-blue-700 pb-1"
+            >
+              Meet the team <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+          <LazyLoad>
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <video className="w-full h-auto" controls>
+                <source src="/UrbanRefuge_mid.mov" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            </div>
           </LazyLoad>
         </div>
       </section>
 
-      {/* Our Commitment to Privacy Section */}
-      <section className="bg-white py-12">
-        <div className="grid md:grid-cols-2 gap-12 items-center px-12">
-          {/* Image for Privacy Section */}
-          <img
-            src="/city.jpg"
-            alt="City Image"
-            className="w-full h-auto rounded-lg shadow-md animate-fade-in-left"
-          />
-          {/* Privacy Text */}
-          <div className="animate-fade-in-right">
-            <h2 className="text-3xl font-bold mb-8 text-center text-blue-800 md:text-left flex items-center">
-              Our Commitment to Privacy
-              <EyeOff className="ml-3 h-8 w-8 text-amber-500" />
-            </h2>
-            <ul className="space-y-4 text-lg">
-              <li>We never collect or store user data.</li>
-              <li>We never collect or store user locations.</li>
-              <li>Your identity will be kept 100% safe.</li>
-              <li>All information is collected from public sources.</li>
-            </ul>
+      {/* Our Impact */}
+      <section className="bg-white py-20">
+        <div className="max-w-6xl mx-auto px-8">
+          <div className="text-center mb-14">
+            <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+              By the Numbers
+            </p>
+            <h2 className="text-4xl font-bold text-blue-800">Our Impact</h2>
+          </div>
+          <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-blue-100">
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">10</span>
+                <span className="text-3xl font-bold text-blue-800">Years</span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                of research behind the map
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                Urban Refuge began in 2016 from an incubator course at Boston
+                University.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">5</span>
+                <span className="text-3xl font-bold text-blue-800">Cities</span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                mapped
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                With Urban Refuge set to arrive in other parts of the world
+                soon.
+              </p>
+            </div>
+            <div className="flex flex-col items-center text-center px-8 py-6">
+              <div className="flex items-baseline gap-2 mb-2">
+                <span className="text-6xl font-bold text-blue-800">3</span>
+                <span className="text-3xl font-bold text-blue-800">
+                  Generations
+                </span>
+              </div>
+              <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
+                of woman-led boards
+              </p>
+              <p className="text-blue-800/75 leading-relaxed">
+                A team and tool that prioritizes diversity and inclusivity.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Donation Section */}
-      <section className="bg-gray-100 py-12 bg-white">
-        <div className="container mx-auto px-6 text-center animate-fade-in-up">
-          <h2 className="text-3xl font-bold mb-8 text-blue-800 flex items-center justify-center">
-            Support Our Cause
-            <Heart className="ml-3 h-8 w-8 text-red-500" />
-          </h2>
-          <p className="text-lg mb-8">
-            Your contributions help us to provide vital resources to refugees in
-            need. Consider making a donation to support our mission.
+      {/* Privacy — compact note */}
+      <section className="bg-slate-50 py-10 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row md:items-center gap-6 md:gap-16">
+          <p className="text-slate-500 text-xs tracking-[0.25em] uppercase font-semibold shrink-0">
+            Your Privacy
           </p>
-          <Button
-            size="lg"
-            className="bg-blue-500 hover:bg-blue-600 text-white">
-            <a href="/donate" className="flex items-center">
-              Donate Now <ArrowRight className="ml-2 h-4 w-4" />
-            </a>
-          </Button>
+          <div className="flex flex-wrap gap-x-8 gap-y-2">
+            {[
+              "We never collect or store user data.",
+              "We never collect or store user locations.",
+              "Your identity will be kept 100% safe.",
+              "All information is collected from public sources.",
+            ].map((item) => (
+              <span key={item} className="text-slate-400 text-sm">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
