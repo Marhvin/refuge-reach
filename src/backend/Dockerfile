@@ -48,4 +48,4 @@ ENV NODE_ENV=production
 EXPOSE ${EXPRESS_PORT}
 
 # Run the Express application
-CMD ["yarn", "preview"]
+CMD ["sh", "-c", "yarn prisma:migrate:prod && yarn preview"]
