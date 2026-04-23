@@ -13,14 +13,65 @@ import { Footer } from "../components/Footer";
 const GEO_URL =
   "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
-const LAUNCHED_CITIES = [
+type CityStatus = "active" | "inactive" | "coming-soon";
+
+type City = {
+  name: string;
+  country: string;
+  coordinates: [number, number];
+  status: CityStatus;
+};
+
+const CITIES: City[] = [
   {
     name: "Boston",
     country: "MA, USA",
-    coordinates: [-71.0589, 42.3601] as [number, number],
-    status: "launched" as const,
+    coordinates: [-71.0589, 42.3601],
+    status: "active",
+  },
+  {
+    name: "San Jose",
+    country: "CA, USA",
+    coordinates: [-121.8863, 37.3382],
+    status: "inactive",
+  },
+  {
+    name: "Westchester",
+    country: "NY, USA",
+    coordinates: [-73.7949, 41.1220],
+    status: "inactive",
+  },
+  {
+    name: "Beirut",
+    country: "Lebanon",
+    coordinates: [35.5018, 33.8938],
+    status: "inactive",
+  },
+  {
+    name: "Istanbul",
+    country: "Turkey",
+    coordinates: [28.9784, 41.0082],
+    status: "inactive",
+  },
+  {
+    name: "Cairo",
+    country: "Egypt",
+    coordinates: [31.2357, 30.0444],
+    status: "inactive",
+  },
+  {
+    name: "Sydney",
+    country: "Australia",
+    coordinates: [151.2093, -33.8688],
+    status: "coming-soon",
   },
 ];
+
+const STATUS_COLORS: Record<CityStatus, { fill: string; label: string }> = {
+  active: { fill: "#16a34a", label: "Active" },
+  inactive: { fill: "#9ca3af", label: "Inactive" },
+  "coming-soon": { fill: "#f59e0b", label: "Coming Soon" },
+};
 
 export default function Maps() {
   const [tooltip, setTooltip] = useState<{
@@ -100,140 +151,173 @@ export default function Maps() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-5 gap-10 items-start">
-            {/* Map — takes 3 columns */}
-            <div className="md:col-span-3">
-              {/* Legend */}
-              <div className="flex items-center gap-2 mb-4">
-                <span className="inline-block w-3 h-3 rounded-full bg-amber-500" />
-                <span className="text-sm text-blue-800/70">Active City</span>
+          {/* Legend */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mb-6">
+            {(Object.keys(STATUS_COLORS) as CityStatus[]).map((status) => (
+              <div key={status} className="flex items-center gap-2">
+                <span
+                  className="inline-block w-3 h-3 rounded-full"
+                  style={{ backgroundColor: STATUS_COLORS[status].fill }}
+                />
+                <span className="text-sm text-blue-800/70">
+                  {STATUS_COLORS[status].label}
+                </span>
               </div>
+            ))}
+          </div>
 
-              <div
-                className="relative rounded-2xl overflow-hidden shadow-lg border border-blue-100"
-                style={{ background: "#e8f0fe" }}
-              >
-                <ComposableMap
-                  projection="geoNaturalEarth1"
-                  style={{ width: "100%", height: "auto" }}
-                >
-                  <ZoomableGroup zoom={1}>
-                    <Geographies geography={GEO_URL}>
-                      {({ geographies }) =>
-                        geographies
-                          .filter((geo) => geo.id !== "010")
-                          .map((geo) => (
-                          <Geography
-                            key={geo.rsmKey}
-                            geography={geo}
-                            fill="#bfdbfe"
-                            stroke="#93c5fd"
-                            strokeWidth={0.5}
-                            style={{
-                              default: { outline: "none" },
-                              hover: { fill: "#93c5fd", outline: "none" },
-                              pressed: { outline: "none" },
-                            }}
-                          />
-                        ))
-                      }
-                    </Geographies>
-
-                    {LAUNCHED_CITIES.map((city) => (
-                      <Marker
-                        key={city.name}
-                        coordinates={city.coordinates}
-                        onMouseEnter={(e) => {
-                          const svg = (
-                            e.target as SVGElement
-                          ).closest("svg")!.getBoundingClientRect();
-                          setTooltip({
-                            name: city.name,
-                            country: city.country,
-                            x: e.clientX - svg.left,
-                            y: e.clientY - svg.top,
-                          });
+          {/* Map — full width */}
+          <div
+            className="relative rounded-2xl overflow-hidden shadow-lg border border-blue-100 mb-16"
+            style={{ background: "#e8f0fe" }}
+          >
+            <ComposableMap
+              projection="geoNaturalEarth1"
+              style={{ width: "100%", height: "auto" }}
+            >
+              <ZoomableGroup zoom={1}>
+                <Geographies geography={GEO_URL}>
+                  {({ geographies }) =>
+                    geographies
+                      .filter((geo) => geo.id !== "010")
+                      .map((geo) => (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        fill="#bfdbfe"
+                        stroke="#93c5fd"
+                        strokeWidth={0.5}
+                        style={{
+                          default: { outline: "none" },
+                          hover: { fill: "#93c5fd", outline: "none" },
+                          pressed: { outline: "none" },
                         }}
-                        onMouseLeave={() => setTooltip(null)}
-                        style={{ cursor: "pointer" }}
-                      >
-                        {/* Pulse ring */}
-                        <circle r={10} fill="#f59e0b" opacity={0.25} />
-                        {/* Pin dot */}
-                        <circle r={5} fill="#f59e0b" stroke="#fff" strokeWidth={1.5} />
-                      </Marker>
-                    ))}
-                  </ZoomableGroup>
-                </ComposableMap>
+                      />
+                    ))
+                  }
+                </Geographies>
 
-                {/* Tooltip */}
-                {tooltip && (
-                  <div
-                    className="absolute pointer-events-none bg-blue-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg"
-                    style={{
-                      left: tooltip.x + 12,
-                      top: tooltip.y - 36,
-                      whiteSpace: "nowrap",
-                    }}
-                  >
-                    <p className="font-bold">{tooltip.name}</p>
-                    <p className="text-white/70">{tooltip.country}</p>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* City Listings — takes 2 columns */}
-            <div className="md:col-span-2 space-y-10">
-              {/* Currently Mapped */}
-              <div>
-                <p className="text-xs tracking-widest uppercase text-amber-600 font-semibold mb-3">
-                  Live Now
-                </p>
-                <h2 className="text-2xl font-bold text-blue-800 mb-4">
-                  Currently Mapped
-                </h2>
-                <div className="space-y-3">
-                  {LAUNCHED_CITIES.map((city) => (
-                    <div
+                {CITIES.map((city) => {
+                  const color = STATUS_COLORS[city.status].fill;
+                  return (
+                    <Marker
                       key={city.name}
-                      className="flex items-center gap-4 bg-slate-50 rounded-xl px-5 py-4 shadow-sm border border-blue-50"
+                      coordinates={city.coordinates}
+                      onMouseEnter={(e) => {
+                        const svg = (
+                          e.target as SVGElement
+                        ).closest("svg")!.getBoundingClientRect();
+                        setTooltip({
+                          name: city.name,
+                          country: city.country,
+                          x: e.clientX - svg.left,
+                          y: e.clientY - svg.top,
+                        });
+                      }}
+                      onMouseLeave={() => setTooltip(null)}
+                      style={{ cursor: "pointer" }}
                     >
-                      <span className="bg-amber-100 p-2 rounded-full">
-                        <MapPin className="h-4 w-4 text-amber-600" />
-                      </span>
-                      <div>
-                        <p className="font-bold text-blue-800">{city.name}</p>
-                        <p className="text-sm text-blue-800/60">{city.country}</p>
-                      </div>
-                      <span className="ml-auto text-xs bg-green-100 text-green-700 font-semibold px-3 py-1 rounded-full">
-                        Active
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                      {city.status === "active" && (
+                        <circle r={10} fill={color} opacity={0.25} />
+                      )}
+                      <circle r={5} fill={color} stroke="#fff" strokeWidth={1.5} />
+                    </Marker>
+                  );
+                })}
+              </ZoomableGroup>
+            </ComposableMap>
 
-              {/* Coming Soon */}
-              <div>
-                <p className="text-xs tracking-widest uppercase text-blue-400 font-semibold mb-3">
-                  Expanding
-                </p>
-                <h2 className="text-2xl font-bold text-blue-800 mb-4">
-                  Coming Soon
-                </h2>
-                <div className="bg-slate-50 rounded-xl px-8 py-10 shadow-sm border border-blue-50 text-center">
-                  <div className="text-4xl mb-4">🌍</div>
-                  <p className="text-blue-800/70 text-lg font-medium mb-2">
-                    New cities are being mapped.
-                  </p>
-                  <p className="text-blue-800/50 text-sm leading-relaxed">
-                    Urban Refuge is actively researching and vetting organizations
-                    in new cities around the world. Stay tuned for updates.
-                  </p>
-                </div>
+            {/* Tooltip */}
+            {tooltip && (
+              <div
+                className="absolute pointer-events-none bg-blue-900 text-white text-xs rounded-lg px-3 py-2 shadow-lg"
+                style={{
+                  left: tooltip.x + 12,
+                  top: tooltip.y - 36,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                <p className="font-bold">{tooltip.name}</p>
+                <p className="text-white/70">{tooltip.country}</p>
               </div>
-            </div>
+            )}
+          </div>
+
+          {/* City Listings — 3 columns below map */}
+          <div className="grid md:grid-cols-3 gap-8 items-start">
+            {(
+              [
+                {
+                  status: "active",
+                  eyebrow: "Live Now",
+                  heading: "Currently Mapped",
+                  badgeClass: "bg-green-100 text-green-700",
+                  iconWrapClass: "bg-green-100",
+                  iconClass: "text-green-700",
+                  eyebrowClass: "text-amber-600",
+                },
+                {
+                  status: "inactive",
+                  eyebrow: "Previously Mapped",
+                  heading: "Inactive Cities",
+                  badgeClass: "bg-gray-100 text-gray-600",
+                  iconWrapClass: "bg-gray-100",
+                  iconClass: "text-gray-500",
+                  eyebrowClass: "text-gray-500",
+                },
+                {
+                  status: "coming-soon",
+                  eyebrow: "Expanding",
+                  heading: "Coming Soon",
+                  badgeClass: "bg-amber-100 text-amber-700",
+                  iconWrapClass: "bg-amber-100",
+                  iconClass: "text-amber-600",
+                  eyebrowClass: "text-blue-400",
+                },
+              ] as const
+            ).map((group) => {
+              const cities = CITIES.filter((c) => c.status === group.status);
+              if (cities.length === 0) return null;
+              return (
+                <div key={group.status}>
+                  <p
+                    className={`text-xs tracking-widest uppercase font-semibold mb-3 ${group.eyebrowClass}`}
+                  >
+                    {group.eyebrow}
+                  </p>
+                  <h2 className="text-2xl font-bold text-blue-800 mb-4">
+                    {group.heading}
+                  </h2>
+                  <div className="space-y-3">
+                    {cities.map((city) => (
+                      <div
+                        key={city.name}
+                        className="flex items-center gap-4 bg-slate-50 rounded-xl px-5 py-4 shadow-sm border border-blue-50"
+                      >
+                        <span
+                          className={`p-2 rounded-full ${group.iconWrapClass}`}
+                        >
+                          <MapPin className={`h-4 w-4 ${group.iconClass}`} />
+                        </span>
+                        <div>
+                          <p className="font-bold text-blue-800">
+                            {city.name}
+                          </p>
+                          <p className="text-sm text-blue-800/60">
+                            {city.country}
+                          </p>
+                        </div>
+                        <span
+                          className={`ml-auto text-xs font-semibold px-3 py-1 rounded-full ${group.badgeClass}`}
+                        >
+                          {STATUS_COLORS[city.status].label}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>

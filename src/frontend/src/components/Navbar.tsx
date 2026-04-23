@@ -122,6 +122,15 @@ const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
             </a>
 
             <a
+              href="/donate"
+              className={`text-lg transition-colors ${
+                isLight ? "text-white/90 hover:text-white" : "hover:text-blue-700"
+              }`}
+            >
+              Donate
+            </a>
+
+            <a
               href="/find"
               className="bg-amber-500 hover:bg-amber-600 text-white text-lg font-semibold px-5 py-2 rounded-lg transition-colors"
             >
@@ -206,6 +215,14 @@ const Navbar: React.FC<NavbarProps> = ({ transparent = false }) => {
             onClick={() => setMobileOpen(false)}
           >
             Get Involved
+          </a>
+
+          <a
+            href="/donate"
+            className="text-lg hover:text-blue-700 transition-colors py-2"
+            onClick={() => setMobileOpen(false)}
+          >
+            Donate
           </a>
 
           <a
