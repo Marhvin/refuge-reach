@@ -52,7 +52,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/urbanrefugeapp"
+                href="https://www.instagram.com/urbanrefugemap/"
                 className="hover:text-blue-300 transition-colors"
                 aria-label="Instagram"
               >
@@ -129,6 +129,14 @@ export function Footer() {
                   className="text-blue-200 hover:text-white text-sm transition-colors"
                 >
                   Contact
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/donate"
+                  className="text-blue-200 hover:text-white text-sm transition-colors"
+                >
+                  Donate
                 </a>
               </li>
             </ul>
